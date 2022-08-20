@@ -4,10 +4,10 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/hamidteimouri/htutils/colog"
 	"github.com/labstack/echo/v4"
-	"laramanpurego/src/cmd/di"
-	"laramanpurego/src/internal/domain/controllers"
-	request2 "laramanpurego/src/internal/presentation/http/request"
-	"laramanpurego/src/pkg/helpers"
+	"laramanpurego/cmd/di"
+	"laramanpurego/internal/domain/controllers"
+	request2 "laramanpurego/internal/presentation/http/request"
+	"laramanpurego/pkg/helpers"
 )
 
 type UserHandler struct {

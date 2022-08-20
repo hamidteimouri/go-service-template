@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/hamidteimouri/htutils/colog"
-	"laramanpurego/src/internal/domain/repo"
+	"laramanpurego/internal/domain/repo"
 )
 
 type UserController struct {
