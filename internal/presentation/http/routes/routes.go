@@ -17,7 +17,7 @@ func Routes(e *echo.Echo) {
 
 	/* Authentication */
 	e.POST("auth/login", di.UserHandler().Login)
-	e.POST("auth/register", controllers.Register)
+	e.POST("auth/register", di.UserHandler().Register)
 
 	/* User's panel */
 	e.GET("user", controllers.ShowUser)
