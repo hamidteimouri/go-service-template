@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"github.com/go-playground/validator/v10"
 	"github.com/hamidteimouri/htutils/colog"
 	"github.com/labstack/echo/v4"
-	"laramanpurego/cmd/di"
 	"laramanpurego/internal/domain/controllers"
 	"laramanpurego/internal/presentation/http/request"
+	"laramanpurego/pkg/config"
+	"laramanpurego/pkg/helpers"
 )
 
 type UserHandler struct {
@@ -26,23 +28,22 @@ func (u *UserHandler) Login(c echo.Context) error {
 		return err
 	}
 
-	err = di.Validate().Struct(req)
+	err = config.Validate().Struct(req)
 
-	//
-	//if err != nil {
-	//
-	//	errs := err.(validator.ValidationErrors)
-	//
-	//	/*
-	//		for _, e := range errs {
-	//			// can translate each error one at a time.
-	//			fmt.Println(e.Translate(trans))
-	//		}
-	//	*/
-	//
-	//	helpers.ResponseUnprocessableEntity(c, errs.Translate(di.Translator()))
-	//	return err
-	//}
+	if err != nil {
+
+		errs := err.(validator.ValidationErrors)
+
+		/*
+			for _, e := range errs {
+				// can translate each error one at a time.
+				fmt.Println(e.Translate(trans))
+			}
+		*/
+
+		helpers.ResponseUnprocessableEntity(c, errs.Translate(config.Translator()))
+		return err
+	}
 	//helpers.ResponseOK(c, "this_is_a_token")
 
 	/* sending data into user controller */
