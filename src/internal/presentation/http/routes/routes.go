@@ -2,8 +2,8 @@ package routes
 
 import (
 	"github.com/labstack/echo/v4"
-	"laramanpurego/src/cmd/di"
-	controllers2 "laramanpurego/src/internal/domain/controllers"
+	"laramanpurego/cmd/di"
+	controllers2 "laramanpurego/internal/domain/controllers"
 	"net/http"
 )
 

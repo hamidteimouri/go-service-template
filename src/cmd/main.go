@@ -3,8 +3,7 @@ package main
 import (
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
-	"laramanpurego/src/internal/data/database"
-	"laramanpurego/src/internal/presentation/http"
+	"laramanpurego/internal/presentation/http"
 )
 
 var (
@@ -13,6 +12,5 @@ var (
 )
 
 func main() {
-	database.Start()
 	http.StartHttp()
 }

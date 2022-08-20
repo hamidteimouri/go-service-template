@@ -2,10 +2,10 @@ package http
 
 import (
 	"github.com/labstack/echo/v4"
-	"laramanpurego/src/internal/presentation/http/routes"
+	"laramanpurego/internal/presentation/http/routes"
 )
 
-func StartHttp()  {
+func StartHttp() {
 	e := echo.New()
 
 	routes.Routes(e)
