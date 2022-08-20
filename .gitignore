@@ -1,0 +1,8 @@
+# General
+*.env
+*.DS_Store
+
+
+# Editors
+/.idea
+/.vscode
