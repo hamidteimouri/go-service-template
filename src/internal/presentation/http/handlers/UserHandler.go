@@ -1,13 +1,11 @@
 package handlers
 
 import (
-	"github.com/go-playground/validator/v10"
 	"github.com/hamidteimouri/htutils/colog"
 	"github.com/labstack/echo/v4"
 	"laramanpurego/cmd/di"
 	"laramanpurego/internal/domain/controllers"
-	request2 "laramanpurego/internal/presentation/http/request"
-	"laramanpurego/pkg/helpers"
+	"laramanpurego/internal/presentation/http/request"
 )
 
 type UserHandler struct {
@@ -20,7 +18,7 @@ func NewUserHandler(ctrl *controllers.UserController) *UserHandler {
 
 func (u *UserHandler) Login(c echo.Context) error {
 
-	req := request2.UserLoginRequest{}
+	req := request.UserLoginRequest{}
 	err := c.Bind(&req)
 
 	if err != nil {
@@ -30,23 +28,22 @@ func (u *UserHandler) Login(c echo.Context) error {
 
 	err = di.Validate().Struct(req)
 
-	helpers.TranslateValidation(di.Validate(), di.Translator())
-
-	if err != nil {
-
-		errs := err.(validator.ValidationErrors)
-
-		/*
-			for _, e := range errs {
-				// can translate each error one at a time.
-				fmt.Println(e.Translate(trans))
-			}
-		*/
-
-		helpers.ResponseUnprocessableEntity(c, errs.Translate(di.Translator()))
-		return err
-	}
-	helpers.ResponseOK(c, "this_is_a_token")
+	//
+	//if err != nil {
+	//
+	//	errs := err.(validator.ValidationErrors)
+	//
+	//	/*
+	//		for _, e := range errs {
+	//			// can translate each error one at a time.
+	//			fmt.Println(e.Translate(trans))
+	//		}
+	//	*/
+	//
+	//	helpers.ResponseUnprocessableEntity(c, errs.Translate(di.Translator()))
+	//	return err
+	//}
+	//helpers.ResponseOK(c, "this_is_a_token")
 
 	/* sending data into user controller */
 	err = u.ctrl.Login(req.Username, req.Password)
@@ -58,7 +55,7 @@ func (u *UserHandler) Login(c echo.Context) error {
 }
 
 func (u *UserHandler) Register(c echo.Context) error {
-	req := request2.UserRegisterRequest{}
+	req := request.UserRegisterRequest{}
 	err := c.Bind(&req)
 	if err != nil {
 		colog.DoRed(err.Error())
