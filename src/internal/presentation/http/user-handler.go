@@ -2,7 +2,7 @@ package http
 
 import (
 	"github.com/labstack/echo/v4"
-	"laramanpurego/internal/domain/controllers"
+	"laramanpurego/src/internal/domain/controllers"
 	"net/http"
 )
 

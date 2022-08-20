@@ -6,9 +6,9 @@ import (
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	fa_translations "github.com/go-playground/validator/v10/translations/fa"
-	"laramanpurego/internal/domain/controllers"
-	"laramanpurego/internal/domain/repo"
-	"laramanpurego/internal/presentation/http/handlers"
+	"laramanpurego/src/internal/domain/controllers"
+	"laramanpurego/src/internal/domain/repo"
+	"laramanpurego/src/internal/presentation/http/handlers"
 )
 
 var (

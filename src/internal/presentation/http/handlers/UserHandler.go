@@ -4,10 +4,10 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/hamidteimouri/htutils/colog"
 	"github.com/labstack/echo/v4"
-	"laramanpurego/cmd/di"
-	"laramanpurego/internal/domain/controllers"
-	"laramanpurego/internal/presentation/http/request"
-	helpers2 "laramanpurego/pkg/helpers"
+	"laramanpurego/src/cmd/di"
+	"laramanpurego/src/internal/domain/controllers"
+	request2 "laramanpurego/src/internal/presentation/http/request"
+	"laramanpurego/src/pkg/helpers"
 )
 
 type UserHandler struct {
@@ -20,7 +20,7 @@ func NewUserHandler(ctrl *controllers.UserController) *UserHandler {
 
 func (u *UserHandler) Login(c echo.Context) error {
 
-	req := request.UserLoginRequest{}
+	req := request2.UserLoginRequest{}
 	err := c.Bind(&req)
 
 	if err != nil {
@@ -30,7 +30,7 @@ func (u *UserHandler) Login(c echo.Context) error {
 
 	err = di.Validate().Struct(req)
 
-	helpers2.TranslateValidation(di.Validate(), di.Translator())
+	helpers.TranslateValidation(di.Validate(), di.Translator())
 
 	if err != nil {
 
@@ -43,10 +43,10 @@ func (u *UserHandler) Login(c echo.Context) error {
 			}
 		*/
 
-		helpers2.ResponseUnprocessableEntity(c, errs.Translate(di.Translator()))
+		helpers.ResponseUnprocessableEntity(c, errs.Translate(di.Translator()))
 		return err
 	}
-	helpers2.ResponseOK(c, "this_is_a_token")
+	helpers.ResponseOK(c, "this_is_a_token")
 
 	/* sending data into user controller */
 	err = u.ctrl.Login(req.Username, req.Password)
@@ -58,7 +58,7 @@ func (u *UserHandler) Login(c echo.Context) error {
 }
 
 func (u *UserHandler) Register(c echo.Context) error {
-	req := request.UserRegisterRequest{}
+	req := request2.UserRegisterRequest{}
 	err := c.Bind(&req)
 	if err != nil {
 		colog.DoRed(err.Error())

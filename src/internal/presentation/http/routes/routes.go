@@ -2,8 +2,8 @@ package routes
 
 import (
 	"github.com/labstack/echo/v4"
-	"laramanpurego/cmd/di"
-	"laramanpurego/internal/domain/controllers"
+	"laramanpurego/src/cmd/di"
+	controllers2 "laramanpurego/src/internal/domain/controllers"
 	"net/http"
 )
 
@@ -20,14 +20,14 @@ func Routes(e *echo.Echo) {
 	e.POST("auth/register", di.UserHandler().Register)
 
 	/* User's panel */
-	e.GET("user", controllers.ShowUser)
-	e.POST("user", controllers.ShowUser)
-	e.PATCH("user/password/change", controllers.ShowUser)
-	e.GET("user/address", controllers.ShowUser)
-	e.POST("user/address", controllers.ShowUser)
-	e.PATCH("user/address/:id", controllers.ShowUser)
+	e.GET("user", controllers2.ShowUser)
+	e.POST("user", controllers2.ShowUser)
+	e.PATCH("user/password/change", controllers2.ShowUser)
+	e.GET("user/address", controllers2.ShowUser)
+	e.POST("user/address", controllers2.ShowUser)
+	e.PATCH("user/address/:id", controllers2.ShowUser)
 
 	/* Articles */
-	e.POST("/article", controllers.StoreArticle)
-	e.GET("/article/:slug", controllers.GetArticle)
+	e.POST("/article", controllers2.StoreArticle)
+	e.GET("/article/:slug", controllers2.GetArticle)
 }

@@ -3,8 +3,8 @@ package main
 import (
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
-	"laramanpurego/internal/data/database"
-	"laramanpurego/internal/presentation/http"
+	"laramanpurego/src/internal/data/database"
+	"laramanpurego/src/internal/presentation/http"
 )
 
 var (
