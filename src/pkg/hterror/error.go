@@ -1,4 +1,4 @@
-package pkg
+package hterror
 
 var (
 	HTErrorInvalidUsernameOrPassword = "username or password is wrong"
