@@ -6,7 +6,7 @@
 project
 │   .gitignore
 │   .gitlab-ci.yml
-│   Dockerfile.txt    
+│   Dockerfile    
 │
 └───src
 │   │
