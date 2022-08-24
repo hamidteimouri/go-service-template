@@ -11,6 +11,7 @@ project
 └───src
 │   │
 │   └─── cmd
+│   │   │   └───   di  (Dependency Injection)
 │   │   │   main.go
 │   │   │   .env
 │   │   │   .env.example
