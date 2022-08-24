@@ -6,7 +6,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"laramanpurego/internal/domain/controllers"
 	"laramanpurego/internal/presentation/http/request"
-	"laramanpurego/pkg/config"
 	"laramanpurego/pkg/helpers"
 )
 
@@ -28,7 +27,8 @@ func (u *UserHandler) Login(c echo.Context) error {
 		return err
 	}
 
-	err = config.Validate().Struct(req)
+	translator := helpers.Translator()
+	err = helpers.Validate(translator).Struct(req)
 
 	if err != nil {
 
@@ -41,16 +41,22 @@ func (u *UserHandler) Login(c echo.Context) error {
 			}
 		*/
 
-		helpers.ResponseUnprocessableEntity(c, errs.Translate(config.Translator()))
-		return err
+		helpers.ResponseUnprocessableEntity(c, errs.Translate(translator))
+		return nil
 	}
-	//helpers.ResponseOK(c, "this_is_a_token")
 
 	/* sending data into user controller */
-	err = u.ctrl.Login(req.Username, req.Password)
+	token, err := u.ctrl.Login(req.Username, req.Password)
 	if err != nil {
+		helpers.ResponseUnprocessableEntity(c, err.Error())
 		return err
 	}
+
+	j := helpers.JwtToken{
+		Token: token,
+	}
+
+	helpers.ResponseOK(c, j)
 
 	return nil
 }

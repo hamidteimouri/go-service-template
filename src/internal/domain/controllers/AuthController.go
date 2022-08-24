@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/hamidteimouri/htutils/colog"
 	"laramanpurego/internal/domain/repo"
+	"laramanpurego/pkg/helpers"
 )
 
 type UserController struct {
@@ -17,10 +18,14 @@ func NewUserController(repo *repo.UserRepository) *UserController {
 //	"fa" :fa.New(),
 //}
 
-func (u *UserController) Login(username, password string) error {
+func (u *UserController) Login(username, password string) (string, error) {
 	colog.DoBgBlue(username)
 	colog.DoBgBlue(password)
-	return nil
+	token, err := helpers.JwtGeneration("حمید", "تیموری", username)
+	if err != nil {
+		return "", err
+	}
+	return token, nil
 }
 
 func (u *UserController) Register(name, family, username, password string) error {

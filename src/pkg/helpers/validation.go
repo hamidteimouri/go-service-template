@@ -1,11 +1,41 @@
 package helpers
 
 import (
+	"github.com/go-playground/locales/fa"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
+	fa_translations "github.com/go-playground/validator/v10/translations/fa"
 )
 
-func TranslateValidation(validate *validator.Validate, translator ut.Translator) {
+//var translator ut.Translator
+var validate *validator.Validate
+
+func Translator() ut.Translator {
+	//if translator != nil {
+	//	return translator
+	//}
+	farsi := fa.New()
+	uni := ut.New(farsi, farsi)
+	translator, _ := uni.GetTranslator("fa")
+	return translator
+}
+
+func Validate(translator ut.Translator) *validator.Validate {
+	if validate != nil {
+		return validate
+	}
+	validate = validator.New()
+	err := fa_translations.RegisterDefaultTranslations(validate, translator)
+	if err != nil {
+		panic(err)
+		return nil
+	}
+	//overwriteTranslation(validate, Translator())
+
+	return validate
+}
+
+func overwriteTranslation(validate *validator.Validate, translator ut.Translator) {
 
 	/* Overwrite Email */
 	validate.RegisterTranslation("email", translator, func(ut ut.Translator) error {

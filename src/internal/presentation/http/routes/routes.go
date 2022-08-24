@@ -19,13 +19,6 @@ func Routes(e *echo.Echo) {
 	e.POST("auth/login", di.UserHandler().Login)
 	e.POST("auth/register", di.UserHandler().Register)
 
-	/* User's panel */
-	e.GET("user", controllers2.ShowUser)
-	e.POST("user", controllers2.ShowUser)
-	e.PATCH("user/password/change", controllers2.ShowUser)
-	e.GET("user/address", controllers2.ShowUser)
-	e.POST("user/address", controllers2.ShowUser)
-	e.PATCH("user/address/:id", controllers2.ShowUser)
 
 	/* Articles */
 	e.POST("/article", controllers2.StoreArticle)
