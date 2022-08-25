@@ -56,8 +56,14 @@ func (u *UserHandler) Login(c echo.Context) error {
 		Token: token,
 	}
 
-	helpers.ResponseOK(c, j)
+	err = helpers.JwtTokenValidation(token)
+	if err != nil {
+		return err
+	} else {
+		colog.DoGreen("token accepted")
+	}
 
+	helpers.ResponseOK(c, j)
 	return nil
 }
 
@@ -75,4 +81,8 @@ func (u *UserHandler) Register(c echo.Context) error {
 	}
 
 	return nil
+}
+
+func (u *UserHandler) Me(c echo.Context) (string, error) {
+	return "", nil
 }

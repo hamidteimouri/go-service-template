@@ -1,16 +1,13 @@
 package main
 
 import (
-	ut "github.com/go-playground/universal-translator"
-	"github.com/go-playground/validator/v10"
+	"github.com/hamidteimouri/htutils/applife"
+	"laramanpurego/cmd/di"
 	"laramanpurego/internal/presentation/http"
 )
 
-var (
-	Validate           *validator.Validate
-	UniversalTranslate ut.UniversalTranslator
-)
-
 func main() {
+	applife.Start()
+	di.DB()
 	http.StartHttp()
 }

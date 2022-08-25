@@ -1,12 +1,16 @@
 package di
 
 import (
+	"gorm.io/gorm"
 	"laramanpurego/internal/domain/controllers"
 	"laramanpurego/internal/domain/repo"
 	"laramanpurego/internal/presentation/http/handlers"
+	"laramanpurego/pkg/config"
 )
 
 var (
+	db *gorm.DB
+
 	/* Controllers variable */
 	userController *controllers.UserController
 	userRepository *repo.UserRepository
@@ -14,8 +18,12 @@ var (
 	userHandler *handlers.UserHandler
 )
 
-func DB() {
-
+func DB() *gorm.DB {
+	if db != nil {
+		return db
+	}
+	db = config.DatabaseInitialization()
+	return db
 }
 
 /*********** Repositories ***********/

@@ -1,9 +1,9 @@
 package repo
 
 import (
-	"laramanpurego/internal/domain/models"
+	"laramanpurego/internal/domain/entity"
 )
 
 type UserRepository interface {
-	FindByUsername(username string) (models.User, error)
+	FindByUsername(username string) (entity.User, error)
 }
