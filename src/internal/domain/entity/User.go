@@ -6,7 +6,7 @@ import (
 )
 
 type User struct {
-	Id        string `json:"id"`
+	Id        uint   `json:"id"`
 	Name      string `json:"name"`
 	Family    string `json:"family"`
 	Email     string `json:"email"`
@@ -16,7 +16,7 @@ type User struct {
 	UpdatedAt time.Time
 }
 
-func NewUser(id string, name string, family string, email string, mobile string, password string, createdAt time.Time, updatedAt time.Time) *User {
+func NewUser(id uint, name string, family string, email string, mobile string, password string, createdAt time.Time, updatedAt time.Time) *User {
 	return &User{Id: id, Name: name, Family: family, Email: email, Mobile: mobile, Password: password, CreatedAt: createdAt, UpdatedAt: updatedAt}
 }
 
