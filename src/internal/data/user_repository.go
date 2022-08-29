@@ -1,23 +1,22 @@
 package data
 
-import "laramanpurego/internal/domain/entity"
-
-type UserInterface interface {
-	Save(user *entity.User) *entity.User
-	FindByEmail(email string) *entity.User
-}
+import (
+	"github.com/hamidteimouri/htutils/colog"
+	"laramanpurego/internal/domain/entity"
+)
 
 type userRepository struct {
 }
 
-func newUserRepository() *userRepository {
+func NewUserRepository() *userRepository {
 	return &userRepository{}
 }
 
-func (u userRepository) Save(user *entity.User) *entity.User {
-	panic("implement me")
+func (u *userRepository) FindByUsername(username string) (*entity.User, error) {
+	colog.DoPurple("I am here")
+	return nil, nil
 }
 
-func (u userRepository) FindByEmail(email string) *entity.User {
+func (u *userRepository) Save(user *entity.User) (*entity.User, error) {
 	panic("implement me")
 }

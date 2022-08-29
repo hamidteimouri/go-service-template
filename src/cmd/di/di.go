@@ -13,7 +13,7 @@ var (
 
 	/* Controllers variable */
 	userController *controllers.UserController
-	userRepository *repo.UserRepository
+	userRepository repo.UserRepository
 
 	userHandler *handlers.UserHandler
 )
@@ -28,7 +28,7 @@ func DB() *gorm.DB {
 
 /*********** Repositories ***********/
 
-func UserRepository() *repo.UserRepository {
+func UserRepository() repo.UserRepository {
 	if userRepository != nil {
 		return userRepository
 	}

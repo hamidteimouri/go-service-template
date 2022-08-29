@@ -7,10 +7,10 @@ import (
 )
 
 type UserController struct {
-	repo *repo.UserRepository
+	repo repo.UserRepository
 }
 
-func NewUserController(repo *repo.UserRepository) *UserController {
+func NewUserController(repo repo.UserRepository) *UserController {
 	return &UserController{repo: repo}
 }
 
@@ -18,10 +18,17 @@ func NewUserController(repo *repo.UserRepository) *UserController {
 //	"fa" :fa.New(),
 //}
 
-func (u *UserController) Login(username, password string) (string, error) {
+func (u *UserController) Login(username, password string) (token string, err error) {
+	colog.DoBgBlue("login method called")
+	_, err = u.repo.FindByUsername(username)
+	if err != nil {
+		colog.DoRed(err.Error())
+		return "", err
+	}
+
 	colog.DoBgBlue(username)
 	colog.DoBgBlue(password)
-	token, err := helpers.JwtGeneration("حمید", "تیموری", username)
+	token, err = helpers.JwtGeneration("حمید", "تیموری", username)
 	if err != nil {
 		return "", err
 	}

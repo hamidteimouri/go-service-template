@@ -44,7 +44,7 @@ func DatabaseInitialization() (db *gorm.DB) {
 		colog.DoBgRed("database connection error: " + err.Error())
 		panic(1)
 	} else {
-		colog.DoBlue("successful connection to the database " + "( " + dbConnection + " )")
+		colog.DoBlue(" - successful connection to the database " + "( " + dbConnection + " )")
 	}
 	return
 
