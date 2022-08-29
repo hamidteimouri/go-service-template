@@ -11,6 +11,10 @@ import (
 )
 
 func DatabaseInitialization() (db *gorm.DB) {
+	if envier.Env("RUN_WITHOUT_DB") == "true" {
+		colog.DoYellow(" - The project was executed without database check")
+		return nil
+	}
 	var err error
 	dbConnection := envier.EnvToLower("DB_CONNECTION")
 	dbHost := envier.Env("DB_HOST")
