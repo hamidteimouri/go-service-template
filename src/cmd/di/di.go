@@ -2,6 +2,7 @@ package di
 
 import (
 	"gorm.io/gorm"
+	"laramanpurego/internal/data"
 	"laramanpurego/internal/domain/controllers"
 	"laramanpurego/internal/domain/repo"
 	"laramanpurego/internal/presentation/http/handlers"
@@ -32,6 +33,7 @@ func UserRepository() repo.UserRepository {
 	if userRepository != nil {
 		return userRepository
 	}
+	userRepository = data.NewUserRepository()
 	return userRepository
 }
 
