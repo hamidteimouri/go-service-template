@@ -6,7 +6,13 @@ import (
 	"github.com/hamidteimouri/htutils/colog"
 	"github.com/hamidteimouri/htutils/envier"
 	"strconv"
+	"strings"
 	"time"
+)
+
+const (
+	bearer       string = "bearer"
+	bearerFormat string = "Bearer %s"
 )
 
 type JwtToken struct {
@@ -53,7 +59,8 @@ func JwtGeneration(name, family, username string) (jwtToken string, err error) {
 	return tokenString, nil
 }
 
-func JwtTokenValidation(signedToken string) (err error) {
+func JwtTokenValidation(signedToken string) (*JwtClaim, error) {
+
 	token, err := jwt.ParseWithClaims(signedToken,
 		&JwtClaim{},
 		func(token *jwt.Token) (interface{}, error) {
@@ -62,18 +69,27 @@ func JwtTokenValidation(signedToken string) (err error) {
 	)
 
 	if err != nil {
-		return
+		return nil, err
 	}
 	claims, ok := token.Claims.(*JwtClaim)
 
 	if !ok {
 		err = errors.New("can not parse claims")
-		return
+		return nil, err
 	}
 
 	if claims.ExpiresAt < time.Now().Local().Unix() {
 		err = errors.New("token expired")
-		return
+		return claims, err
 	}
-	return nil
+	return claims, err
+}
+
+func ExtractTokenFromAuthHeader(val string) (token string, ok bool) {
+	authHeaderParts := strings.Split(val, " ")
+	if len(authHeaderParts) != 2 || !strings.EqualFold(authHeaderParts[0], bearer) {
+		return "", false
+	}
+
+	return authHeaderParts[1], true
 }

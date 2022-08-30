@@ -3,7 +3,6 @@ package routes
 import (
 	"github.com/labstack/echo/v4"
 	"laramanpurego/cmd/di"
-	controllers2 "laramanpurego/internal/domain/controllers"
 	"net/http"
 )
 
@@ -19,8 +18,7 @@ func Routes(e *echo.Echo) {
 	e.POST("auth/login", di.UserHandler().Login)
 	e.POST("auth/register", di.UserHandler().Register)
 
+	//g := e.Group("/user")
+	//g.GET("/", middleware.ValidateJwt(di.UserHandler()))
 
-	/* Articles */
-	e.POST("/article", controllers2.StoreArticle)
-	e.GET("/article/:slug", controllers2.GetArticle)
 }

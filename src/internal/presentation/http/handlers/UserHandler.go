@@ -56,7 +56,7 @@ func (u *UserHandler) Login(c echo.Context) error {
 		Token: token,
 	}
 
-	err = helpers.JwtTokenValidation(token)
+	_, err = helpers.JwtTokenValidation(token)
 	if err != nil {
 		return err
 	} else {
