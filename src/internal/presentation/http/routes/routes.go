@@ -18,6 +18,9 @@ func Routes(e *echo.Echo) {
 	e.POST("auth/login", di.UserHandler().Login)
 	e.POST("auth/register", di.UserHandler().Register)
 
+	/* User */
+	e.GET("user/:email", di.UserHandler().GetUserByEmail)
+
 	//g := e.Group("/user")
 	//g.GET("/", middleware.ValidateJwt(di.UserHandler()))
 

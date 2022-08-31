@@ -12,3 +12,7 @@ func ResponseUnprocessableEntity(c echo.Context, data interface{}) {
 func ResponseOK(c echo.Context, data interface{}) {
 	c.JSON(http.StatusOK, data)
 }
+
+func ResponseNotFound(c echo.Context, data interface{}) {
+	c.JSON(http.StatusNotFound, data)
+}

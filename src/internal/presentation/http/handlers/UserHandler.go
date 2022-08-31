@@ -86,3 +86,13 @@ func (u *UserHandler) Register(c echo.Context) error {
 func (u *UserHandler) Me(c echo.Context) (string, error) {
 	return "", nil
 }
+
+func (u *UserHandler) GetUserByEmail(c echo.Context) error {
+	email := c.Param("email")
+	user, err := u.ctrl.GetUserByEmail(email)
+	if err != nil {
+		helpers.ResponseNotFound(c, nil)
+	}
+	helpers.ResponseOK(c, user)
+	return nil
+}
