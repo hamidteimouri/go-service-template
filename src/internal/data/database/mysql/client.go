@@ -10,7 +10,7 @@ type mysql struct {
 	db *gorm.DB
 }
 
-func newMysql(db *gorm.DB) *mysql {
+func NewMysql(db *gorm.DB) *mysql {
 	return &mysql{db: db}
 }
 
