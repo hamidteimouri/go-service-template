@@ -3,6 +3,8 @@ package di
 import (
 	"gorm.io/gorm"
 	"laramanpurego/internal/data"
+	"laramanpurego/internal/data/database"
+	"laramanpurego/internal/data/database/mysql"
 	"laramanpurego/internal/domain/controllers"
 	"laramanpurego/internal/domain/repo"
 	"laramanpurego/internal/presentation/http/handlers"
@@ -15,6 +17,7 @@ var (
 	/* Controllers variable */
 	userController *controllers.UserController
 	userRepository repo.UserRepository
+	dbDatasource   database.DbDatasourceInterface
 
 	userHandler *handlers.UserHandler
 )
@@ -27,13 +30,23 @@ func DB() *gorm.DB {
 	return db
 }
 
+/*********** Datasource ***********/
+
+func DbDatasource() database.DbDatasourceInterface {
+	if dbDatasource != nil {
+		return dbDatasource
+	}
+	dbDatasource = mysql.NewMysql(db)
+	return dbDatasource
+}
+
 /*********** Repositories ***********/
 
 func UserRepository() repo.UserRepository {
 	if userRepository != nil {
 		return userRepository
 	}
-	userRepository = data.NewUserRepository()
+	userRepository = data.NewUserRepository(DbDatasource())
 	return userRepository
 }
 

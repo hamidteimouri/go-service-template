@@ -2,19 +2,27 @@ package data
 
 import (
 	"github.com/hamidteimouri/htutils/colog"
+	"laramanpurego/internal/data/database"
 	"laramanpurego/internal/domain/entity"
 )
 
 type userRepository struct {
+	dbds database.DbDatasourceInterface
 }
 
-func NewUserRepository() *userRepository {
-	return &userRepository{}
+func NewUserRepository(ds database.DbDatasourceInterface) *userRepository {
+	return &userRepository{
+		dbds: ds,
+	}
 }
 
 func (u *userRepository) FindById(id string) (*entity.User, error) {
 	colog.DoGreen("finding by user id ")
-	return nil, nil
+	user, err := u.dbds.FindUserById(id)
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }
 
 func (u *userRepository) FindByUsername(username string) (*entity.User, error) {
@@ -25,11 +33,16 @@ func (u *userRepository) FindByUsername(username string) (*entity.User, error) {
 func (u *userRepository) FindByEmail(email string) (*entity.User, error) {
 	colog.DoPurple("find by email is calling")
 
-	user := entity.User{
-		Id:    1,
-		Email: "hamid@test.com",
+
+
+
+	user, err := u.dbds.FindUserByEmail(email)
+
+	if err != nil {
+		return nil, err
 	}
-	return &user, nil
+
+	return user, nil
 }
 
 func (u *userRepository) Save(user *entity.User) (*entity.User, error) {
