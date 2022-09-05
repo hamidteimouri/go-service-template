@@ -3,10 +3,16 @@ package routes
 import (
 	"github.com/labstack/echo/v4"
 	"laramanpurego/cmd/di"
+	"laramanpurego/internal/presentation/http/middleware"
 	"net/http"
 )
 
 func Routes(e *echo.Echo) {
+
+
+
+
+
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello,world")
 	})
@@ -19,9 +25,10 @@ func Routes(e *echo.Echo) {
 	e.POST("auth/register", di.UserHandler().Register)
 
 	/* User */
-	e.GET("user/:email", di.UserHandler().GetUserByEmail)
+	e.GET("user/email/:email", di.UserHandler().GetUserByEmail)
+	e.GET("user/id/:id", di.UserHandler().GetUserByID)
 
-	//g := e.Group("/user")
-	//g.GET("/", middleware.ValidateJwt(di.UserHandler()))
+	g := e.Group("/user")
+	g.GET("/", middleware.ValidateJwt(di.UserHandler().GetUserByMe))
 
 }

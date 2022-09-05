@@ -1,14 +1,16 @@
 package di
 
 import (
+	"fmt"
+	"github.com/hamidteimouri/htutils/colog"
 	"gorm.io/gorm"
+	"laramanpurego/cmd/initialize"
 	"laramanpurego/internal/data"
 	"laramanpurego/internal/data/database"
 	"laramanpurego/internal/data/database/mysql"
 	"laramanpurego/internal/domain/controllers"
 	"laramanpurego/internal/domain/repo"
 	"laramanpurego/internal/presentation/http/handlers"
-	"laramanpurego/pkg/config"
 )
 
 var (
@@ -19,6 +21,7 @@ var (
 	userRepository repo.UserRepository
 	dbDatasource   database.DbDatasourceInterface
 
+	/* Handlers variable */
 	userHandler *handlers.UserHandler
 )
 
@@ -26,7 +29,8 @@ func DB() *gorm.DB {
 	if db != nil {
 		return db
 	}
-	db = config.DatabaseInitialization()
+
+	db = initialize.DatabaseInitialization()
 	return db
 }
 
@@ -36,6 +40,8 @@ func DbDatasource() database.DbDatasourceInterface {
 	if dbDatasource != nil {
 		return dbDatasource
 	}
+	colog.DoBgYellow("in di")
+	fmt.Println(db)
 	dbDatasource = mysql.NewMysql(db)
 	return dbDatasource
 }

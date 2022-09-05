@@ -15,9 +15,6 @@ func NewUserController(repo repo.UserRepository) *UserController {
 	return &UserController{repo: repo}
 }
 
-//var tras map[string] locales.Translator = {
-//	"fa" :fa.New(),
-//}
 
 func (u *UserController) Login(username, password string) (token string, err error) {
 	colog.DoBgBlue("login method called")
@@ -49,6 +46,13 @@ func (u *UserController) GetUserByEmail(email string) (user *entity.User, err er
 	if err != nil {
 		return nil, err
 	}
+	return user, nil
+}
 
+func (u *UserController) GetUserByID(id string) (user *entity.User, err error) {
+	user, err = u.repo.FindById(id)
+	if err != nil {
+		return nil, err
+	}
 	return user, nil
 }

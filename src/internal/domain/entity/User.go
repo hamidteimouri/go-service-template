@@ -12,8 +12,8 @@ type User struct {
 	Email     string `json:"email"`
 	Mobile    string `json:"mobile"`
 	Password  string `json:"-"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
 }
 
 func NewUser(id uint, name string, family string, email string, mobile string, password string, createdAt time.Time, updatedAt time.Time) *User {

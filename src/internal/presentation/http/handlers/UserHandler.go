@@ -5,7 +5,9 @@ import (
 	"github.com/hamidteimouri/htutils/colog"
 	"github.com/labstack/echo/v4"
 	"laramanpurego/internal/domain/controllers"
+	"laramanpurego/internal/domain/entity"
 	"laramanpurego/internal/presentation/http/request"
+	"laramanpurego/internal/presentation/http/response"
 	"laramanpurego/pkg/helpers"
 )
 
@@ -41,15 +43,13 @@ func (u *UserHandler) Login(c echo.Context) error {
 			}
 		*/
 
-		helpers.ResponseUnprocessableEntity(c, errs.Translate(translator))
-		return nil
+		return helpers.ResponseUnprocessableEntity(c, errs.Translate(translator))
 	}
 
 	/* sending data into user controller */
 	token, err := u.ctrl.Login(req.Username, req.Password)
 	if err != nil {
-		helpers.ResponseUnprocessableEntity(c, err.Error())
-		return err
+		return helpers.ResponseUnprocessableEntity(c, err.Error())
 	}
 
 	j := helpers.JwtToken{
@@ -63,8 +63,7 @@ func (u *UserHandler) Login(c echo.Context) error {
 		colog.DoGreen("token accepted")
 	}
 
-	helpers.ResponseOK(c, j)
-	return nil
+	return helpers.ResponseOK(c, j)
 }
 
 func (u *UserHandler) Register(c echo.Context) error {
@@ -91,8 +90,34 @@ func (u *UserHandler) GetUserByEmail(c echo.Context) error {
 	email := c.Param("email")
 	user, err := u.ctrl.GetUserByEmail(email)
 	if err != nil {
-		helpers.ResponseNotFound(c, nil)
+		resp := response.Response{
+			Msg: "user not found",
+		}
+		return helpers.ResponseNotFound(c, resp)
 	}
-	helpers.ResponseOK(c, user)
-	return nil
+	return helpers.ResponseOK(c, user)
+}
+
+func (u *UserHandler) GetUserByID(c echo.Context) error {
+	id := c.Param("id")
+	user, err := u.ctrl.GetUserByID(id)
+	if err != nil {
+		resp := response.Response{
+			Msg: "user not found",
+		}
+		return helpers.ResponseNotFound(c, resp)
+	}
+	return helpers.ResponseOK(c, user)
+}
+
+func (u *UserHandler) GetUserByMe(user *entity.User, c echo.Context) error {
+	id := c.Param("id")
+	user, err := u.ctrl.GetUserByID(id)
+	if err != nil {
+		resp := response.Response{
+			Msg: "user not found",
+		}
+		return helpers.ResponseNotFound(c, resp)
+	}
+	return helpers.ResponseOK(c, user)
 }

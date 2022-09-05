@@ -1,4 +1,4 @@
-package config
+package initialize
 
 import (
 	"fmt"
@@ -8,6 +8,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	model "laramanpurego/internal/data/database/mysql"
 )
 
 func DatabaseInitialization() (db *gorm.DB) {
@@ -51,5 +52,8 @@ func DatabaseInitialization() (db *gorm.DB) {
 }
 
 func DatabaseMigration() {
-
+	err := DatabaseInitialization().AutoMigrate(model.UserModel{})
+	if err != nil {
+		return
+	}
 }
