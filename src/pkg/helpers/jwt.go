@@ -20,14 +20,12 @@ type JwtToken struct {
 }
 
 type JwtClaim struct {
-	Name     string `json:"name"`
-	Family   string `json:"family"`
-	Username string `json:"username"`
+	ID       string `json:"id"`
 	ExpireAt string `json:"expires_at"`
 	jwt.StandardClaims
 }
 
-func JwtGeneration(name, family, username string) (jwtToken string, err error) {
+func JwtGeneration(id string) (jwtToken string, err error) {
 	exp := envier.EnvOrDefault("JWT_EXPIRE_MINUTES", "60")
 	signingKey := envier.Env("JWT_SIGNING_KEY")
 
@@ -37,13 +35,11 @@ func JwtGeneration(name, family, username string) (jwtToken string, err error) {
 		colog.DoRed("error while convert JWT_EXPIRE_MINUTES to int")
 		panic(err)
 	}
-	expirationTime := time.Now().Add(1 * time.Minute)
+	expirationTime := time.Now().Add(60 * time.Minute)
 
 	/* preparing data */
 	claims := JwtClaim{
-		Name:     name,
-		Family:   family,
-		Username: username,
+		ID:       id,
 		ExpireAt: expirationTime.Format(TimeFullFormat),
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),

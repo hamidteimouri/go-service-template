@@ -1,8 +1,6 @@
 package di
 
 import (
-	"fmt"
-	"github.com/hamidteimouri/htutils/colog"
 	"gorm.io/gorm"
 	"laramanpurego/cmd/initialize"
 	"laramanpurego/internal/data"
@@ -40,8 +38,6 @@ func DbDatasource() database.DbDatasourceInterface {
 	if dbDatasource != nil {
 		return dbDatasource
 	}
-	colog.DoBgYellow("in di")
-	fmt.Println(db)
 	dbDatasource = mysql.NewMysql(db)
 	return dbDatasource
 }

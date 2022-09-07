@@ -9,6 +9,7 @@ import (
 	"laramanpurego/internal/presentation/http/request"
 	"laramanpurego/internal/presentation/http/response"
 	"laramanpurego/pkg/helpers"
+	"strconv"
 )
 
 type UserHandler struct {
@@ -51,20 +52,29 @@ func (u *UserHandler) Login(c echo.Context) error {
 	if err != nil {
 		return helpers.ResponseUnprocessableEntity(c, err.Error())
 	}
-
 	j := helpers.JwtToken{
 		Token: token,
 	}
-
-	_, err = helpers.JwtTokenValidation(token)
-	if err != nil {
-		colog.DoBgRed(err.Error())
-		return err
-	} else {
-		colog.DoGreen("token accepted")
+	resp := response.Response{
+		Data: j,
 	}
 
-	return helpers.ResponseOK(c, j)
+	return helpers.ResponseOK(c, resp)
+	/*
+		j := helpers.JwtToken{
+			Token: token,
+		}
+
+		_, err = helpers.JwtTokenValidation(token)
+		if err != nil {
+			colog.DoBgRed(err.Error())
+			return err
+		} else {
+			colog.DoGreen("token accepted")
+		}
+	*/
+
+	//return helpers.ResponseOK(c, j)
 }
 
 func (u *UserHandler) Register(c echo.Context) error {
@@ -96,10 +106,6 @@ func (u *UserHandler) Register(c echo.Context) error {
 	return helpers.ResponseOK(c, resp)
 }
 
-func (u *UserHandler) Me(c echo.Context) (string, error) {
-	return "", nil
-}
-
 func (u *UserHandler) GetUserByEmail(c echo.Context) error {
 	email := c.Param("email")
 	user, err := u.ctrl.GetUserByEmail(email)
@@ -125,17 +131,23 @@ func (u *UserHandler) GetUserByID(c echo.Context) error {
 		}
 		return helpers.ResponseNotFound(c, resp)
 	}
-	return helpers.ResponseOK(c, user)
+	resp := response.Response{
+		Data: user,
+	}
+	return helpers.ResponseOK(c, resp)
 }
 
-func (u *UserHandler) GetUserByMe(user *entity.User, c echo.Context) error {
-	id := c.Param("id")
-	user, err := u.ctrl.GetUserByID(id)
+func (u *UserHandler) Me(user *entity.User, c echo.Context) error {
+	var userId string = strconv.FormatUint(uint64(user.Id), 10)
+	user, err := u.ctrl.GetUserByID(userId)
 	if err != nil {
 		resp := response.Response{
 			Msg: "user not found",
 		}
 		return helpers.ResponseNotFound(c, resp)
 	}
-	return helpers.ResponseOK(c, user)
+	resp := response.Response{
+		Data: user,
+	}
+	return helpers.ResponseOK(c, resp)
 }
