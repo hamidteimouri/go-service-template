@@ -43,7 +43,7 @@ func (m *mysql) FindUserByEmail(email string) (*entity.User, error) {
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			colog.DoBgBrightRed(email + " Not found")
-			return nil, nil
+			return nil, result.Error
 		}
 		return nil, result.Error
 	}
@@ -79,5 +79,12 @@ func (m *mysql) UpdateUser(user *entity.User) (*entity.User, error) {
 func (m *mysql) InsertUser(user *entity.User) (*entity.User, error) {
 	userModel := UserModel{}
 	userModel.ConvertEntityToModel(user)
-	panic("implement me")
+
+	result := m.db.Create(&userModel)
+	if result.Error != nil {
+		colog.DoRed("err while insert new user : " + result.Error.Error())
+		return nil, result.Error
+	}
+	userModel.ConvertModelToEntity(user)
+	return user, nil
 }

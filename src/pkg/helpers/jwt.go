@@ -29,6 +29,7 @@ type JwtClaim struct {
 
 func JwtGeneration(name, family, username string) (jwtToken string, err error) {
 	exp := envier.EnvOrDefault("JWT_EXPIRE_MINUTES", "60")
+	signingKey := envier.Env("JWT_SIGNING_KEY")
 
 	/* string to int */
 	_, err = strconv.Atoi(exp)
@@ -50,7 +51,7 @@ func JwtGeneration(name, family, username string) (jwtToken string, err error) {
 	}
 	/* generate jwt token */
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString([]byte("supersecretkey"))
+	tokenString, err := token.SignedString([]byte(signingKey))
 	if err != nil {
 		colog.DoRed("error while generating JWT token")
 		return "", err
@@ -60,11 +61,11 @@ func JwtGeneration(name, family, username string) (jwtToken string, err error) {
 }
 
 func JwtTokenValidation(signedToken string) (*JwtClaim, error) {
-
+	signingKey := envier.Env("JWT_SIGNING_KEY")
 	token, err := jwt.ParseWithClaims(signedToken,
 		&JwtClaim{},
 		func(token *jwt.Token) (interface{}, error) {
-			return []byte("supersecretkey"), nil
+			return []byte(signingKey), nil
 		},
 	)
 

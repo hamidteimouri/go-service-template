@@ -58,6 +58,7 @@ func (u *UserHandler) Login(c echo.Context) error {
 
 	_, err = helpers.JwtTokenValidation(token)
 	if err != nil {
+		colog.DoBgRed(err.Error())
 		return err
 	} else {
 		colog.DoGreen("token accepted")
@@ -73,13 +74,26 @@ func (u *UserHandler) Register(c echo.Context) error {
 		colog.DoRed(err.Error())
 		return err
 	}
+	translator := helpers.Translator()
+	err = helpers.Validate(translator).Struct(req)
+
+	if err != nil {
+		errs := err.(validator.ValidationErrors)
+		return helpers.ResponseUnprocessableEntity(c, errs.Translate(translator))
+	}
 
 	err = u.ctrl.Register(req.Name, req.Family, req.Username, req.Password)
 	if err != nil {
-		return err
+		resp := response.Response{
+			Msg: err.Error(),
+		}
+		return helpers.ResponseInternalError(c, resp)
+	}
+	resp := response.Response{
+		Msg: "ثبت نام شما با موفقیت انجام شد",
 	}
 
-	return nil
+	return helpers.ResponseOK(c, resp)
 }
 
 func (u *UserHandler) Me(c echo.Context) (string, error) {
@@ -95,7 +109,11 @@ func (u *UserHandler) GetUserByEmail(c echo.Context) error {
 		}
 		return helpers.ResponseNotFound(c, resp)
 	}
-	return helpers.ResponseOK(c, user)
+	resp := response.Response{
+		Msg:  "",
+		Data: user,
+	}
+	return helpers.ResponseOK(c, resp)
 }
 
 func (u *UserHandler) GetUserByID(c echo.Context) error {

@@ -15,7 +15,6 @@ func NewUserController(repo repo.UserRepository) *UserController {
 	return &UserController{repo: repo}
 }
 
-
 func (u *UserController) Login(username, password string) (token string, err error) {
 	colog.DoBgBlue("login method called")
 	_, err = u.repo.FindByUsername(username)
@@ -28,16 +27,29 @@ func (u *UserController) Login(username, password string) (token string, err err
 	colog.DoBgBlue(password)
 	token, err = helpers.JwtGeneration("حمید", "تیموری", username)
 	if err != nil {
+		colog.DoRed(err.Error())
 		return "", err
 	}
+	colog.DoGreen(token)
 	return token, nil
 }
 
 func (u *UserController) Register(name, family, username, password string) error {
-	colog.DoBgYellow("name: " + name)
-	colog.DoBgYellow(family)
-	colog.DoBgYellow(username)
-	colog.DoBgYellow(password)
+	colog.DoBgGreen("register method called in controller")
+	hashed, err := helpers.HashMake(password)
+	if err != nil {
+		return err
+	}
+	user := entity.User{
+		Name:     name,
+		Family:   family,
+		Email:    username,
+		Password: hashed,
+	}
+	_, err = u.repo.Save(&user)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

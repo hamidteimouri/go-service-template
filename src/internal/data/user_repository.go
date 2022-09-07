@@ -33,9 +33,6 @@ func (u *userRepository) FindByUsername(username string) (*entity.User, error) {
 func (u *userRepository) FindByEmail(email string) (*entity.User, error) {
 	colog.DoPurple("find by email is calling")
 
-
-
-
 	user, err := u.dbds.FindUserByEmail(email)
 
 	if err != nil {
@@ -46,5 +43,10 @@ func (u *userRepository) FindByEmail(email string) (*entity.User, error) {
 }
 
 func (u *userRepository) Save(user *entity.User) (*entity.User, error) {
-	return nil, nil
+	colog.DoPurple("save method is calling")
+	insertUser, err := u.dbds.InsertUser(user)
+	if err != nil {
+		return nil, err
+	}
+	return insertUser, err
 }

@@ -16,5 +16,8 @@ func ResponseOK(c echo.Context, data interface{}) error {
 
 func ResponseNotFound(c echo.Context, resp response.Response) error {
 	return c.JSON(http.StatusNotFound, resp)
+}
 
+func ResponseInternalError(c echo.Context, resp response.Response) error {
+	return c.JSON(http.StatusInternalServerError, resp)
 }
