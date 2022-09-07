@@ -8,7 +8,6 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	model "laramanpurego/internal/data/database/mysql"
 )
 
 func DatabaseInitialization() (db *gorm.DB) {
@@ -37,23 +36,14 @@ func DatabaseInitialization() (db *gorm.DB) {
 		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	} else {
-		colog.DoBgRed("invalid DB_CONNECTION (only mysql and postgres)")
-		panic(1)
+		panic(colog.MakeRed("invalid DB_CONNECTION (only mysql and postgres)"))
 	}
 
 	if err != nil {
-		colog.DoBgRed("database connection error: " + err.Error())
-		panic(1)
+		panic(colog.MakeRed("database connection error: " + err.Error()))
 	} else {
 		colog.DoBlue(" - successful connection to the database " + "( " + dbConnection + " )")
 	}
 	return
 
-}
-
-func DatabaseMigration() {
-	err := DatabaseInitialization().AutoMigrate(model.UserModel{})
-	if err != nil {
-		return
-	}
 }
