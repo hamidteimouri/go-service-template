@@ -43,14 +43,19 @@ func (u *UserHandler) Login(c echo.Context) error {
 				fmt.Println(e.Translate(trans))
 			}
 		*/
-
-		return helpers.ResponseUnprocessableEntity(c, errs.Translate(translator))
+		resp := response.Response{
+			Data: errs.Translate(translator),
+		}
+		return helpers.ResponseUnprocessableEntity(c, resp)
 	}
 
 	/* sending data into user controller */
 	token, err := u.ctrl.Login(req.Username, req.Password)
 	if err != nil {
-		return helpers.ResponseUnprocessableEntity(c, err.Error())
+		resp := response.Response{
+			Msg: err.Error(),
+		}
+		return helpers.ResponseUnprocessableEntity(c, resp)
 	}
 	j := helpers.JwtToken{
 		Token: token,
@@ -89,15 +94,18 @@ func (u *UserHandler) Register(c echo.Context) error {
 
 	if err != nil {
 		errs := err.(validator.ValidationErrors)
-		return helpers.ResponseUnprocessableEntity(c, errs.Translate(translator))
+		resp := response.Response{
+			Data: errs.Translate(translator),
+		}
+		return helpers.ResponseUnprocessableEntity(c, resp)
 	}
 
 	err = u.ctrl.Register(req.Name, req.Family, req.Username, req.Password)
 	if err != nil {
 		resp := response.Response{
-			Msg: err.Error(),
+			Msg: "error: " + err.Error(),
 		}
-		return helpers.ResponseInternalError(c, resp)
+		return helpers.ResponseUnprocessableEntity(c, resp)
 	}
 	resp := response.Response{
 		Msg: "ثبت نام شما با موفقیت انجام شد",
@@ -146,6 +154,56 @@ func (u *UserHandler) Me(user *entity.User, c echo.Context) error {
 		}
 		return helpers.ResponseNotFound(c, resp)
 	}
+	resp := response.Response{
+		Data: user,
+	}
+	return helpers.ResponseOK(c, resp)
+}
+
+func (u *UserHandler) UpdatePassword(user *entity.User, c echo.Context) error {
+	var userId string = strconv.FormatUint(uint64(user.Id), 10)
+	user, err := u.ctrl.GetUserByID(userId)
+	if err != nil {
+		resp := response.Response{
+			Msg: "user not found",
+		}
+		return helpers.ResponseNotFound(c, resp)
+	}
+
+	req := request.UserChangePasswordRequest{}
+	err = c.Bind(&req)
+	if err != nil {
+		resp := response.Response{
+			Msg: "internal error",
+		}
+		return helpers.ResponseInternalError(c, resp)
+	}
+
+	translator := helpers.Translator()
+	err = helpers.Validate(translator).Struct(req)
+	if err != nil {
+		errs := err.(validator.ValidationErrors)
+		resp := response.Response{
+			Data: errs.Translate(translator),
+		}
+		return helpers.ResponseUnprocessableEntity(c, resp)
+	}
+	ok := helpers.HashCheck(req.CurrentPassword, user.Password)
+	if ok == false {
+		resp := response.Response{
+			Msg: "password is wrong",
+		}
+		return helpers.ResponseUnprocessableEntity(c, resp)
+	}
+
+	ok, err = u.ctrl.ChangePassword(user, req.Password)
+	if err != nil || ok == false {
+		resp := response.Response{
+			Data: err.Error(),
+		}
+		return helpers.ResponseUnprocessableEntity(c, resp)
+	}
+
 	resp := response.Response{
 		Data: user,
 	}

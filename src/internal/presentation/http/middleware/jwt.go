@@ -6,6 +6,7 @@ import (
 	"github.com/hamidteimouri/htutils/colog"
 	"github.com/labstack/echo/v4"
 	"laramanpurego/internal/domain/entity"
+	"laramanpurego/internal/presentation/http/response"
 	"laramanpurego/pkg/helpers"
 	"strconv"
 )
@@ -23,7 +24,10 @@ func ValidateJwt(h userHandler) echo.HandlerFunc {
 		}
 		claims, err := helpers.JwtTokenValidation(token)
 		if err != nil {
-			return err
+			resp := response.Response{
+				Msg: "unauthorized",
+			}
+			return helpers.ResponseUnauthorized(c, resp)
 		}
 		fmt.Println("claims: ", claims)
 		userId, err := strconv.ParseUint(claims.ID, 10, 64)

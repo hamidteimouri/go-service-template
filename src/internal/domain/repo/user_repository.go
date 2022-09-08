@@ -9,4 +9,5 @@ type UserRepository interface {
 	FindByEmail(email string) (*entity.User, error)
 	FindById(id string) (*entity.User, error)
 	Save(user *entity.User) (*entity.User, error)
+	Update(user *entity.User) (*entity.User, error)
 }

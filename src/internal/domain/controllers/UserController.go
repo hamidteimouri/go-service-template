@@ -42,18 +42,27 @@ func (u *UserController) Login(username, password string) (token string, err err
 
 func (u *UserController) Register(name, family, username, password string) error {
 	colog.DoBgGreen("register method called in controller")
+
+	user, err := u.repo.FindByEmail(username)
+	if err != nil {
+		return err
+	}
+	if user != nil {
+		return errors.New("user exists")
+	}
+
 	/* hash password */
 	hashed, err := helpers.HashMake(password)
 	if err != nil {
 		return err
 	}
-	user := entity.User{
+	usr := entity.User{
 		Name:     name,
 		Family:   family,
 		Email:    username,
 		Password: hashed,
 	}
-	_, err = u.repo.Save(&user)
+	_, err = u.repo.Save(&usr)
 	if err != nil {
 		return err
 	}
@@ -74,4 +83,25 @@ func (u *UserController) GetUserByID(id string) (user *entity.User, err error) {
 		return nil, err
 	}
 	return user, nil
+}
+
+func (u *UserController) ChangePassword(user *entity.User, newPassword string) (ok bool, err error) {
+	usr, err := u.repo.FindById(user.GetIdString())
+	if err != nil {
+		return false, err
+	}
+
+	hashed, err := helpers.HashMake(newPassword)
+	if err != nil {
+		return false, err
+	}
+	colog.DoBlue("before:" + usr.Password)
+	usr.Password = hashed
+	colog.DoBlue("after:" + usr.Password)
+	_, err = u.repo.Update(usr)
+	if err != nil {
+		return false, err
+	}
+
+	return true, nil
 }

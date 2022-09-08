@@ -26,5 +26,6 @@ func Routes(e *echo.Echo) {
 
 	g := e.Group("/user")
 	g.GET("/", middleware.ValidateJwt(di.UserHandler().Me))
+	g.PATCH("/password/update", middleware.ValidateJwt(di.UserHandler().UpdatePassword))
 
 }

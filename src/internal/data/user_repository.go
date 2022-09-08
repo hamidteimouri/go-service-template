@@ -50,3 +50,12 @@ func (u *userRepository) Save(user *entity.User) (*entity.User, error) {
 	}
 	return insertUser, err
 }
+
+func (u *userRepository) Update(user *entity.User) (*entity.User, error) {
+	colog.DoPurple("update method is calling")
+	insertUser, err := u.dbds.UpdateUser(user)
+	if err != nil {
+		return nil, err
+	}
+	return insertUser, err
+}
