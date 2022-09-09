@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package user;
+option go_package = "../pbs";
+
+
+message Me{
+  string token = 1;
+}
+message MeReply{
+  string user_id = 1;
+  string name = 2;
+  string family = 3;
+  string email = 4;
+  string mobile = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
