@@ -2,6 +2,7 @@ package grpcd
 
 import (
 	"github.com/hamidteimouri/htutils/colog"
+	"google.golang.org/grpc"
 	"net"
 )
 
@@ -12,5 +13,7 @@ func Start() {
 	}
 
 	grpcServer := grpc.NewServer()
+	colog.DoGreen("grpc server served at ::50051")
+	grpcServer.Serve(listener)
 
 }

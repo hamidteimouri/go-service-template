@@ -1,11 +1,9 @@
 package main
 
-import (
-	"github.com/hamidteimouri/htutils/applife"
-	"laramanpurego/cmd/bootstrap"
-)
+import  "laramanpurego/internal/presentation/grpcd"
 
 func main() {
-	applife.Start()
-	bootstrap.Start()
+	//applife.Start()
+	//bootstrap.Start()
+	grpcd.Start()
 }

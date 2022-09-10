@@ -1,6 +1,6 @@
 # General
 *.env
-*.sh
+#*.sh
 *.exe
 *.DS_Store
 
