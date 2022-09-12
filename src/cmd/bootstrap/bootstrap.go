@@ -5,6 +5,7 @@ import (
 	"github.com/hamidteimouri/htutils/envier"
 	"laramanpurego/cmd/di"
 	model "laramanpurego/internal/data/database/mysql"
+	"laramanpurego/internal/presentation/grpc"
 	"laramanpurego/internal/presentation/http"
 )
 
@@ -12,6 +13,7 @@ func Start() {
 	checkImportantEnv()
 	databaseMigration()
 	http.StartHttp()
+	grpc.StartGRPC()
 }
 
 func databaseMigration() {
@@ -66,6 +68,23 @@ func checkImportantEnv() {
 	}
 	if envier.EnvExists("APP_ENV") == false {
 		colog.DoRed("APP_ENV is required")
+		needToPanic = true
+	}
+	if envier.EnvExists("HTTP_SERVER_ADDRESS") == false {
+		colog.DoRed("HTTP_SERVER_ADDRESS is required")
+		needToPanic = true
+	}
+	if envier.EnvExists("HTTP_SERVER_PORT") == false {
+		colog.DoRed("HTPP_SERVER_PORT is required")
+		needToPanic = true
+	}
+
+	if envier.EnvExists("GRPC_SERVER_ADDRESS") == false {
+		colog.DoRed("GRPC_SERVER_ADDRESS is required")
+		needToPanic = true
+	}
+	if envier.EnvExists("GRPC_SERVER_PORT") == false {
+		colog.DoRed("GRPC_SERVER_PORT is required")
 		needToPanic = true
 	}
 	if needToPanic {

@@ -1,9 +1,13 @@
 package main
 
-import  "laramanpurego/internal/presentation/grpcd"
+import (
+	"github.com/hamidteimouri/htutils/applife"
+	"laramanpurego/cmd/bootstrap"
+)
 
 func main() {
-	//applife.Start()
-	//bootstrap.Start()
-	grpcd.Start()
+	applife.Start()
+	bootstrap.Start()
+	applife.ClosingSignalListener()
+
 }
