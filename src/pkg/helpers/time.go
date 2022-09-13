@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	"github.com/hamidteimouri/htutils/envier"
+	"github.com/hamidteimouri/htutils/htenvier"
 	"time"
 )
 
@@ -10,7 +10,7 @@ var (
 )
 
 func GetTimezone() string {
-	return envier.EnvOrDefault("TIMEZONE", "Asia/Tehran")
+	return htenvier.EnvOrDefault("TIMEZONE", "Asia/Tehran")
 }
 
 func Now() string {

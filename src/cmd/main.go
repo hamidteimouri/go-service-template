@@ -1,13 +1,13 @@
 package main
 
 import (
-	"github.com/hamidteimouri/htutils/applife"
+	"github.com/hamidteimouri/htutils/htapplife"
 	"laramanpurego/cmd/bootstrap"
 )
 
 func main() {
-	applife.Start()
+	htapplife.Start()
 	bootstrap.Start()
-	applife.ClosingSignalListener()
+	htapplife.ClosingSignalListener()
 
 }

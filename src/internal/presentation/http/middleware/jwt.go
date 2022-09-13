@@ -3,7 +3,7 @@ package middleware
 import (
 	"errors"
 	"fmt"
-	"github.com/hamidteimouri/htutils/colog"
+	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/labstack/echo/v4"
 	"laramanpurego/internal/domain/entity"
 	"laramanpurego/internal/presentation/http/response"
@@ -19,7 +19,7 @@ func ValidateJwt(h userHandler) echo.HandlerFunc {
 		bearer := c.Request().Header.Get("Authorization")
 		token, ok := helpers.ExtractTokenFromAuthHeader(bearer)
 		if ok == false {
-			colog.DoRed("error while getting jwt token from header")
+			htcolog.DoRed("error while getting jwt token from header")
 			return errors.New("something went wrong")
 		}
 		claims, err := helpers.JwtTokenValidation(token)

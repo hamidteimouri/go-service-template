@@ -3,8 +3,8 @@ package helpers
 import (
 	"errors"
 	"github.com/golang-jwt/jwt"
-	"github.com/hamidteimouri/htutils/colog"
-	"github.com/hamidteimouri/htutils/envier"
+	"github.com/hamidteimouri/htutils/htcolog"
+	"github.com/hamidteimouri/htutils/htenvier"
 	"strconv"
 	"strings"
 	"time"
@@ -26,16 +26,16 @@ type JwtClaim struct {
 }
 
 func JwtGeneration(id string) (jwtToken string, err error) {
-	exp := envier.EnvOrDefault("JWT_EXPIRE_MINUTES", "60")
-	signingKey := envier.Env("JWT_SIGNING_KEY")
+	exp := htenvier.EnvOrDefault("JWT_EXPIRE_MINUTES", "60")
+	signingKey := htenvier.Env("JWT_SIGNING_KEY")
 
 	/* string to int */
-	_, err = strconv.Atoi(exp)
+	ex, err := strconv.ParseUint(exp, 10, 64)
 	if err != nil {
-		colog.DoRed("error while convert JWT_EXPIRE_MINUTES to int")
-		panic(err)
+		htcolog.DoRed("error while convert JWT_EXPIRE_MINUTES to int")
+		panic(htcolog.MakeRed(err.Error()))
 	}
-	expirationTime := time.Now().Add(60 * time.Minute)
+	expirationTime := time.Now().Add(time.Duration(ex) * time.Minute)
 
 	/* preparing data */
 	claims := JwtClaim{
@@ -49,7 +49,7 @@ func JwtGeneration(id string) (jwtToken string, err error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString([]byte(signingKey))
 	if err != nil {
-		colog.DoRed("error while generating JWT token")
+		htcolog.DoRed("error while generating JWT token")
 		return "", err
 	}
 
@@ -57,7 +57,7 @@ func JwtGeneration(id string) (jwtToken string, err error) {
 }
 
 func JwtTokenValidation(signedToken string) (*JwtClaim, error) {
-	signingKey := envier.Env("JWT_SIGNING_KEY")
+	signingKey := htenvier.Env("JWT_SIGNING_KEY")
 	token, err := jwt.ParseWithClaims(signedToken,
 		&JwtClaim{},
 		func(token *jwt.Token) (interface{}, error) {
@@ -79,7 +79,7 @@ func JwtTokenValidation(signedToken string) (*JwtClaim, error) {
 		err = errors.New("token expired")
 		return claims, err
 	}
-	return claims, err
+	return claims, nil
 }
 
 func ExtractTokenFromAuthHeader(val string) (token string, ok bool) {

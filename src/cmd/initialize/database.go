@@ -2,8 +2,8 @@ package initialize
 
 import (
 	"fmt"
-	"github.com/hamidteimouri/htutils/colog"
-	"github.com/hamidteimouri/htutils/envier"
+	"github.com/hamidteimouri/htutils/htcolog"
+	"github.com/hamidteimouri/htutils/htenvier"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -11,18 +11,18 @@ import (
 )
 
 func DatabaseInitialization() (db *gorm.DB) {
-	if envier.Env("RUN_WITHOUT_DB") == "true" {
-		colog.DoYellow(" - The project was executed without database check")
+	if htenvier.Env("RUN_WITHOUT_DB") == "true" {
+		htcolog.DoYellow(" - The project was executed without database check")
 		return nil
 	}
 	var err error
-	dbConnection := envier.EnvToLower("DB_CONNECTION")
-	dbHost := envier.Env("DB_HOST")
-	dbPort := envier.Env("DB_PORT")
-	dbName := envier.Env("DB_NAME")
-	dbUsername := envier.Env("DB_USERNAME")
-	dbPassword := envier.Env("DB_PASSWORD")
-	dbTimezone := envier.Env("DB_TIMEZONE")
+	dbConnection := htenvier.EnvToLower("DB_CONNECTION")
+	dbHost := htenvier.Env("DB_HOST")
+	dbPort := htenvier.Env("DB_PORT")
+	dbName := htenvier.Env("DB_NAME")
+	dbUsername := htenvier.Env("DB_USERNAME")
+	dbPassword := htenvier.Env("DB_PASSWORD")
+	dbTimezone := htenvier.Env("DB_TIMEZONE")
 
 	if dbConnection == "mysql" {
 		dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local",
@@ -36,13 +36,13 @@ func DatabaseInitialization() (db *gorm.DB) {
 		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	} else {
-		panic(colog.MakeRed("invalid DB_CONNECTION (only mysql and postgres)"))
+		panic(htcolog.MakeRed("invalid DB_CONNECTION (only mysql and postgres)"))
 	}
 
 	if err != nil {
-		panic(colog.MakeRed("database connection error: " + err.Error()))
+		panic(htcolog.MakeRed("database connection error: " + err.Error()))
 	} else {
-		colog.DoBlue(" - successful connection to the database " + "( " + dbConnection + " )")
+		htcolog.DoBlue(" - successful connection to the database " + "( " + dbConnection + " )")
 	}
 	return
 

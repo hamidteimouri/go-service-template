@@ -1,8 +1,8 @@
 package bootstrap
 
 import (
-	"github.com/hamidteimouri/htutils/colog"
-	"github.com/hamidteimouri/htutils/envier"
+	"github.com/hamidteimouri/htutils/htcolog"
+	"github.com/hamidteimouri/htutils/htenvier"
 	"laramanpurego/cmd/di"
 	model "laramanpurego/internal/data/database/mysql"
 	"laramanpurego/internal/presentation/grpc"
@@ -17,7 +17,7 @@ func Start() {
 }
 
 func databaseMigration() {
-	if envier.Env("RUN_WITHOUT_DB") == "true" {
+	if htenvier.Env("RUN_WITHOUT_DB") == "true" {
 		return
 	}
 	err := di.DB().AutoMigrate(model.UserModel{})
@@ -30,65 +30,65 @@ func databaseMigration() {
 func checkImportantEnv() {
 
 	needToPanic := false
-	if envier.EnvExists("DB_CONNECTION") == false {
-		colog.DoRed("DB_CONNECTION is required")
+	if htenvier.EnvExists("DB_CONNECTION") == false {
+		htcolog.DoRed("DB_CONNECTION is required")
 		needToPanic = true
 	}
-	if envier.EnvExists("DB_HOST") == false {
-		colog.DoRed("DB_HOST is required")
+	if htenvier.EnvExists("DB_HOST") == false {
+		htcolog.DoRed("DB_HOST is required")
 		needToPanic = true
 	}
-	if envier.EnvExists("DB_PORT") == false {
-		colog.DoRed("DB_PORT is required")
+	if htenvier.EnvExists("DB_PORT") == false {
+		htcolog.DoRed("DB_PORT is required")
 		needToPanic = true
 	}
-	if envier.EnvExists("DB_NAME") == false {
-		colog.DoRed("DB_NAME is required")
+	if htenvier.EnvExists("DB_NAME") == false {
+		htcolog.DoRed("DB_NAME is required")
 		needToPanic = true
 	}
-	if envier.EnvExists("DB_USERNAME") == false {
-		colog.DoRed("DB_USERNAME is required")
+	if htenvier.EnvExists("DB_USERNAME") == false {
+		htcolog.DoRed("DB_USERNAME is required")
 		needToPanic = true
 	}
-	if envier.EnvExists("DB_PASSWORD") == false {
-		colog.DoRed("DB_PASSWORD is required")
+	if htenvier.EnvExists("DB_PASSWORD") == false {
+		htcolog.DoRed("DB_PASSWORD is required")
 		needToPanic = true
 	}
-	if envier.EnvExists("JWT_SIGNING_KEY") == false {
-		colog.DoRed("JWT_SIGNING_KEY is required")
+	if htenvier.EnvExists("JWT_SIGNING_KEY") == false {
+		htcolog.DoRed("JWT_SIGNING_KEY is required")
 		needToPanic = true
 	}
-	if envier.EnvExists("JWT_EXPIRE_MINUTES") == false {
-		colog.DoRed("JWT_EXPIRE_MINUTES is required")
+	if htenvier.EnvExists("JWT_EXPIRE_MINUTES") == false {
+		htcolog.DoRed("JWT_EXPIRE_MINUTES is required")
 		needToPanic = true
 	}
-	if envier.EnvExists("TIMEZONE") == false {
-		colog.DoRed("TIMEZONE is required")
+	if htenvier.EnvExists("TIMEZONE") == false {
+		htcolog.DoRed("TIMEZONE is required")
 		needToPanic = true
 	}
-	if envier.EnvExists("APP_ENV") == false {
-		colog.DoRed("APP_ENV is required")
+	if htenvier.EnvExists("APP_ENV") == false {
+		htcolog.DoRed("APP_ENV is required")
 		needToPanic = true
 	}
-	if envier.EnvExists("HTTP_SERVER_ADDRESS") == false {
-		colog.DoRed("HTTP_SERVER_ADDRESS is required")
+	if htenvier.EnvExists("HTTP_SERVER_ADDRESS") == false {
+		htcolog.DoRed("HTTP_SERVER_ADDRESS is required")
 		needToPanic = true
 	}
-	if envier.EnvExists("HTTP_SERVER_PORT") == false {
-		colog.DoRed("HTPP_SERVER_PORT is required")
+	if htenvier.EnvExists("HTTP_SERVER_PORT") == false {
+		htcolog.DoRed("HTPP_SERVER_PORT is required")
 		needToPanic = true
 	}
 
-	if envier.EnvExists("GRPC_SERVER_ADDRESS") == false {
-		colog.DoRed("GRPC_SERVER_ADDRESS is required")
+	if htenvier.EnvExists("GRPC_SERVER_ADDRESS") == false {
+		htcolog.DoRed("GRPC_SERVER_ADDRESS is required")
 		needToPanic = true
 	}
-	if envier.EnvExists("GRPC_SERVER_PORT") == false {
-		colog.DoRed("GRPC_SERVER_PORT is required")
+	if htenvier.EnvExists("GRPC_SERVER_PORT") == false {
+		htcolog.DoRed("GRPC_SERVER_PORT is required")
 		needToPanic = true
 	}
 	if needToPanic {
-		panic(colog.MakeRed("complete the ENV file"))
+		panic(htcolog.MakeRed("complete the ENV file"))
 	}
 
 }

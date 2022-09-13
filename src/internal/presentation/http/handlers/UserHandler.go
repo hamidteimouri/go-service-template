@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"github.com/go-playground/validator/v10"
-	"github.com/hamidteimouri/htutils/colog"
+	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/labstack/echo/v4"
 	"laramanpurego/internal/domain/controllers"
 	"laramanpurego/internal/domain/entity"
@@ -26,7 +26,7 @@ func (u *UserHandler) Login(c echo.Context) error {
 	err := c.Bind(&req)
 
 	if err != nil {
-		colog.DoRed(err.Error())
+		htcolog.DoRed(err.Error())
 		return err
 	}
 
@@ -86,7 +86,7 @@ func (u *UserHandler) Register(c echo.Context) error {
 	req := request.UserRegisterRequest{}
 	err := c.Bind(&req)
 	if err != nil {
-		colog.DoRed(err.Error())
+		htcolog.DoRed(err.Error())
 		return err
 	}
 	translator := helpers.Translator()

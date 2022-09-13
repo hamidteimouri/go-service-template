@@ -1,7 +1,7 @@
 package data
 
 import (
-	"github.com/hamidteimouri/htutils/colog"
+	"github.com/hamidteimouri/htutils/htcolog"
 	"laramanpurego/internal/data/database"
 	"laramanpurego/internal/domain/entity"
 )
@@ -17,7 +17,7 @@ func NewUserRepository(ds database.DbDatasourceInterface) *userRepository {
 }
 
 func (u *userRepository) FindById(id string) (*entity.User, error) {
-	colog.DoGreen("finding by user id ")
+	htcolog.DoGreen("finding by user id ")
 	user, err := u.dbds.FindUserById(id)
 	if err != nil {
 		return nil, err
@@ -26,12 +26,12 @@ func (u *userRepository) FindById(id string) (*entity.User, error) {
 }
 
 func (u *userRepository) FindByUsername(username string) (*entity.User, error) {
-	colog.DoPurple("find by username is calling")
+	htcolog.DoPurple("find by username is calling")
 	return nil, nil
 }
 
 func (u *userRepository) FindByEmail(email string) (*entity.User, error) {
-	colog.DoPurple("find by email is calling")
+	htcolog.DoPurple("find by email is calling")
 
 	user, err := u.dbds.FindUserByEmail(email)
 
@@ -43,7 +43,7 @@ func (u *userRepository) FindByEmail(email string) (*entity.User, error) {
 }
 
 func (u *userRepository) Save(user *entity.User) (*entity.User, error) {
-	colog.DoPurple("save method is calling")
+	htcolog.DoPurple("save method is calling")
 	insertUser, err := u.dbds.InsertUser(user)
 	if err != nil {
 		return nil, err
@@ -52,7 +52,7 @@ func (u *userRepository) Save(user *entity.User) (*entity.User, error) {
 }
 
 func (u *userRepository) Update(user *entity.User) (*entity.User, error) {
-	colog.DoPurple("update method is calling")
+	htcolog.DoPurple("update method is calling")
 	insertUser, err := u.dbds.UpdateUser(user)
 	if err != nil {
 		return nil, err

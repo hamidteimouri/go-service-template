@@ -3,7 +3,7 @@ package controllers
 import (
 	"errors"
 	"fmt"
-	"github.com/hamidteimouri/htutils/colog"
+	"github.com/hamidteimouri/htutils/htcolog"
 	"laramanpurego/internal/domain/entity"
 	"laramanpurego/internal/domain/repo"
 	"laramanpurego/pkg/helpers"
@@ -19,10 +19,10 @@ func NewUserController(repo repo.UserRepository) *UserController {
 }
 
 func (u *UserController) Login(username, password string) (token string, err error) {
-	colog.DoBgBlue("login method called")
+	htcolog.DoBgBlue("login method called")
 	user, err := u.repo.FindByEmail(username)
 	if err != nil {
-		colog.DoRed(err.Error())
+		htcolog.DoRed(err.Error())
 		return "", errors.New("incorrect username or password")
 	}
 	fmt.Println(user)
@@ -33,15 +33,15 @@ func (u *UserController) Login(username, password string) (token string, err err
 	var userId string = strconv.FormatUint(uint64(user.Id), 10)
 	token, err = helpers.JwtGeneration(userId)
 	if err != nil {
-		colog.DoRed(err.Error())
+		htcolog.DoRed(err.Error())
 		return "", err
 	}
-	colog.DoGreen(token)
+	htcolog.DoGreen(token)
 	return token, nil
 }
 
 func (u *UserController) Register(name, family, username, password string) error {
-	colog.DoBgGreen("register method called in controller")
+	htcolog.DoBgGreen("register method called in controller")
 
 	user, err := u.repo.FindByEmail(username)
 	if err != nil {
@@ -95,9 +95,9 @@ func (u *UserController) ChangePassword(user *entity.User, newPassword string) (
 	if err != nil {
 		return false, err
 	}
-	colog.DoBlue("before:" + usr.Password)
+	htcolog.DoBlue("before:" + usr.Password)
 	usr.Password = hashed
-	colog.DoBlue("after:" + usr.Password)
+	htcolog.DoBlue("after:" + usr.Password)
 	_, err = u.repo.Update(usr)
 	if err != nil {
 		return false, err
