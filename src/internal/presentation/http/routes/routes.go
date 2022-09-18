@@ -4,17 +4,15 @@ import (
 	"github.com/labstack/echo/v4"
 	"laramanpurego/cmd/di"
 	"laramanpurego/internal/presentation/http/middleware"
-	"net/http"
 )
 
 func Routes(e *echo.Echo) {
 
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello,world")
-	})
-
-	//userController := controllers.NewUserController("sss")
-	//userHandler := handlers.NewUserHandler(userController)
+	/*
+		e.GET("/", func(c echo.Context) error {
+			return c.String(http.StatusOK, "Hello,world")
+		})
+	*/
 
 	/* Authentication */
 	e.POST("auth/login", di.UserHandler().Login)
@@ -27,5 +25,6 @@ func Routes(e *echo.Echo) {
 	g := e.Group("/user")
 	g.GET("/", middleware.ValidateJwt(di.UserHandler().Me))
 	g.PATCH("/password/update", middleware.ValidateJwt(di.UserHandler().UpdatePassword))
+
 
 }

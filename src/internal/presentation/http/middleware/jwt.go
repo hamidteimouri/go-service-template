@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"errors"
 	"fmt"
 	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/labstack/echo/v4"
@@ -20,7 +19,10 @@ func ValidateJwt(h userHandler) echo.HandlerFunc {
 		token, ok := helpers.ExtractTokenFromAuthHeader(bearer)
 		if ok == false {
 			htcolog.DoRed("error while getting jwt token from header")
-			return errors.New("something went wrong")
+			resp := response.Response{
+				Msg: "unauthorized",
+			}
+			return helpers.ResponseUnauthorized(c, resp)
 		}
 		claims, err := helpers.JwtTokenValidation(token)
 		if err != nil {

@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/labstack/echo/v4"
 	"laramanpurego/internal/domain/controllers"
 	"laramanpurego/internal/domain/entity"
+	"laramanpurego/internal/presentation/http/dto"
 	"laramanpurego/internal/presentation/http/request"
 	"laramanpurego/internal/presentation/http/response"
 	"laramanpurego/pkg/helpers"
@@ -154,8 +156,10 @@ func (u *UserHandler) Me(user *entity.User, c echo.Context) error {
 		}
 		return helpers.ResponseNotFound(c, resp)
 	}
+	userDto := dto.User{}
+	userDto.ConvertEntityToDTO(user)
 	resp := response.Response{
-		Data: user,
+		Data: userDto,
 	}
 	return helpers.ResponseOK(c, resp)
 }
@@ -178,7 +182,7 @@ func (u *UserHandler) UpdatePassword(user *entity.User, c echo.Context) error {
 		}
 		return helpers.ResponseInternalError(c, resp)
 	}
-
+	err = nil
 	translator := helpers.Translator()
 	err = helpers.Validate(translator).Struct(req)
 	if err != nil {
@@ -204,8 +208,11 @@ func (u *UserHandler) UpdatePassword(user *entity.User, c echo.Context) error {
 		return helpers.ResponseUnprocessableEntity(c, resp)
 	}
 
+	userDto := dto.User{}
+	userDto.ConvertEntityToDTO(user)
+	fmt.Println(userDto)
 	resp := response.Response{
-		Data: user,
+		Data: userDto,
 	}
 	return helpers.ResponseOK(c, resp)
 }

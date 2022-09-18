@@ -11,9 +11,7 @@ import (
 var validate *validator.Validate
 
 func Translator() ut.Translator {
-	//if translator != nil {
-	//	return translator
-	//}
+
 	farsi := fa.New()
 	uni := ut.New(farsi, farsi)
 	translator, _ := uni.GetTranslator("fa")

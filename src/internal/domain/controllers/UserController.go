@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"errors"
-	"fmt"
 	"github.com/hamidteimouri/htutils/htcolog"
 	"laramanpurego/internal/domain/entity"
 	"laramanpurego/internal/domain/repo"
@@ -19,15 +18,19 @@ func NewUserController(repo repo.UserRepository) *UserController {
 }
 
 func (u *UserController) Login(username, password string) (token string, err error) {
-	htcolog.DoBgBlue("login method called")
 	user, err := u.repo.FindByEmail(username)
 	if err != nil {
+		/* there is an error while using database */
 		htcolog.DoRed(err.Error())
+		return "", errors.New("internal error")
+	}
+	if user == nil {
+		/* user not found in database */
 		return "", errors.New("incorrect username or password")
 	}
-	fmt.Println(user)
 
 	if helpers.HashCheck(password, user.Password) == false {
+		/* password is wrong */
 		return "", errors.New("incorrect username or password")
 	}
 	var userId string = strconv.FormatUint(uint64(user.Id), 10)
@@ -41,7 +44,6 @@ func (u *UserController) Login(username, password string) (token string, err err
 }
 
 func (u *UserController) Register(name, family, username, password string) error {
-	htcolog.DoBgGreen("register method called in controller")
 
 	user, err := u.repo.FindByEmail(username)
 	if err != nil {
