@@ -65,9 +65,19 @@ func (m *mysql) FindUserByMobile(mobile string) (user *entity.User, err error) {
 func (m *mysql) UpdateUser(user *entity.User) (*entity.User, error) {
 	userModel := UserModel{}
 	userModel.ConvertEntityToModel(user)
-	//userModel.Password = user.Password
+	userModel.Password = user.Password
 
-	m.db.Model(&userModel).Update("password", &userModel.Password)
+	/* update a column */
+	// m.db.Model(&userModel).Update("password", &userModel.Password)
+
+	/* update multiple columns */
+	m.db.Model(&userModel).Updates(UserModel{
+		Name:     user.Name,
+		Family:   user.Family,
+		Email:    user.Email,
+		Mobile:   user.Mobile,
+		Password: user.Password,
+	})
 
 	m.db.Save(&userModel)
 	userModel.ConvertModelToEntity(user)

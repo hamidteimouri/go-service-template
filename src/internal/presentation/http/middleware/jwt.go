@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/labstack/echo/v4"
 	"laramanpurego/internal/domain/entity"
@@ -31,7 +30,6 @@ func ValidateJwt(h userHandler) echo.HandlerFunc {
 			}
 			return helpers.ResponseUnauthorized(c, resp)
 		}
-		fmt.Println("claims: ", claims)
 		userId, err := strconv.ParseUint(claims.ID, 10, 64)
 		if err != nil {
 			return err

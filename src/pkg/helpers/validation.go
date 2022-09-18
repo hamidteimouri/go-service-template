@@ -1,7 +1,9 @@
 package helpers
 
 import (
+	"github.com/go-playground/locales/en"
 	"github.com/go-playground/locales/fa"
+	"github.com/go-playground/locales/fr"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
 	fa_translations "github.com/go-playground/validator/v10/translations/fa"
@@ -13,22 +15,25 @@ var validate *validator.Validate
 func Translator() ut.Translator {
 
 	farsi := fa.New()
-	uni := ut.New(farsi, farsi)
+	uni := ut.New(farsi, farsi, en.New(), fr.New())
 	translator, _ := uni.GetTranslator("fa")
 	return translator
 }
 
 func Validate(translator ut.Translator) *validator.Validate {
-	if validate != nil {
-		return validate
-	}
+	/*
+		if validate != nil {
+			return validate
+		}
+	*/
+
 	validate = validator.New()
 	err := fa_translations.RegisterDefaultTranslations(validate, translator)
 	if err != nil {
 		panic(err)
 		return nil
 	}
-	//overwriteTranslation(validate, Translator())
+	overwriteTranslation(validate, Translator())
 
 	return validate
 }

@@ -9,5 +9,4 @@ func main() {
 	htapplife.Start()
 	bootstrap.Start()
 	htapplife.ClosingSignalListener()
-
 }

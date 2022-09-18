@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/labstack/echo/v4"
@@ -210,7 +209,55 @@ func (u *UserHandler) UpdatePassword(user *entity.User, c echo.Context) error {
 
 	userDto := dto.User{}
 	userDto.ConvertEntityToDTO(user)
-	fmt.Println(userDto)
+	resp := response.Response{
+		Data: userDto,
+	}
+	return helpers.ResponseOK(c, resp)
+}
+
+func (u *UserHandler) Update(user *entity.User, c echo.Context) error {
+	var userId string = strconv.FormatUint(uint64(user.Id), 10)
+	user, err := u.ctrl.GetUserByID(userId)
+	if err != nil {
+		resp := response.Response{
+			Msg: "user not found",
+		}
+		return helpers.ResponseNotFound(c, resp)
+	}
+
+	req := request.UserUpdateRequest{}
+	err = c.Bind(&req)
+	if err != nil {
+		resp := response.Response{
+			Msg: "internal error",
+		}
+		return helpers.ResponseInternalError(c, resp)
+	}
+	err = nil
+	translator := helpers.Translator()
+	err = helpers.Validate(translator).Struct(req)
+	if err != nil {
+		errs := err.(validator.ValidationErrors)
+		resp := response.Response{
+			Data: errs.Translate(translator),
+		}
+		return helpers.ResponseUnprocessableEntity(c, resp)
+	}
+
+	user.Name = req.Name
+	user.Family = req.Family
+	user.Mobile = req.Mobile
+
+	result, ok, err := u.ctrl.Update(user)
+	if err != nil || ok == false {
+		resp := response.Response{
+			Data: err.Error(),
+		}
+		return helpers.ResponseUnprocessableEntity(c, resp)
+	}
+
+	userDto := dto.User{}
+	userDto.ConvertEntityToDTO(result)
 	resp := response.Response{
 		Data: userDto,
 	}
