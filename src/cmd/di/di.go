@@ -8,6 +8,7 @@ import (
 	"laramanpurego/internal/data/database/mysql"
 	"laramanpurego/internal/domain/controllers"
 	"laramanpurego/internal/domain/repo"
+	"laramanpurego/internal/presentation/grpc/servers"
 	"laramanpurego/internal/presentation/http/handlers"
 )
 
@@ -21,6 +22,9 @@ var (
 
 	/* Handlers variable */
 	userHandler *handlers.UserHandler
+
+	/* GRPC variable */
+	userServer *servers.UserServer
 )
 
 func DB() *gorm.DB {
@@ -70,4 +74,14 @@ func UserHandler() *handlers.UserHandler {
 	}
 	userHandler = handlers.NewUserHandler(UserDomain())
 	return userHandler
+}
+
+/*********** GRPC ***********/
+
+func GrpcUserServer() *servers.UserServer {
+	if userServer != nil {
+		return userServer
+	}
+	userServer = servers.NewUserServer(userController)
+	return userServer
 }

@@ -5,6 +5,8 @@ import (
 	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/hamidteimouri/htutils/htenvier"
 	"google.golang.org/grpc"
+	"laramanpurego/cmd/di"
+	"laramanpurego/internal/presentation/grpc/pbs"
 	"net"
 )
 
@@ -20,6 +22,9 @@ func StartGRPC() {
 	grpcServer := grpc.NewServer()
 	log := fmt.Sprintf("⇨ grpc server started on %s", htcolog.MakeGreen(address))
 	fmt.Println(log)
+
+	/* register GRPC servers */
+	pbs.RegisterUserServiceServer(grpcServer, di.GrpcUserServer())
 
 	go func() {
 

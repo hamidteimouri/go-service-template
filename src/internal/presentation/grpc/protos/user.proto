@@ -3,16 +3,38 @@ syntax = "proto3";
 package user;
 option go_package = "../pbs";
 
+/****************** Services ******************/
+service UserService {
+  rpc GetMe (Me) returns (MeReply);
+  rpc UserChangePassword (UserChangePasswordRequest) returns (UserChangePasswordReply);
+}
 
+/****************** Variables ******************/
+message User{
+  string name = 1;
+  string family = 2;
+  string email = 3;
+  string mobile = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+
+/****************** Messages ******************/
 message Me{
   string token = 1;
 }
+
 message MeReply{
-  string user_id = 1;
-  string name = 2;
-  string family = 3;
-  string email = 4;
-  string mobile = 5;
-  string created_at = 6;
-  string updated_at = 7;
+  User user = 1;
+}
+
+message UserChangePasswordRequest{
+  string current_password = 1;
+  string password = 2;
+  string password_confirmation = 3;
+}
+
+message UserChangePasswordReply{
+  User user = 1;
 }
