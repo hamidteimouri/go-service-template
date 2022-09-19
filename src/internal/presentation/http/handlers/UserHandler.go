@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/labstack/echo/v4"
@@ -262,4 +264,47 @@ func (u *UserHandler) Update(user *entity.User, c echo.Context) error {
 		Data: userDto,
 	}
 	return helpers.ResponseOK(c, resp)
+}
+
+func (u *UserHandler) GetAll(c echo.Context) error {
+
+	ch := u.ctrl.GetAll()
+
+	c.Response().Header().Set("Content-Type", "text/event-stream")
+	c.Response().Header().Set("Cache-Control", "no-cache")
+	c.Response().Header().Set("Connection", "keep-alive")
+	c.Response().Header().Set("Transfer-Encoding", "chunked")
+	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
+
+Loop:
+	for {
+		select {
+		case result, ok := <-ch:
+			if !ok {
+				fmt.Println("closed")
+				break Loop
+			}
+			if result.Error != nil {
+				fmt.Println(result.Error)
+				break Loop
+			}
+
+			fmt.Println(result)
+			user, err := json.Marshal(result)
+			if err != nil {
+				break Loop
+			}
+			_, err = fmt.Fprintf(c.Response().Writer, "data:%s\n\n", string(user))
+			if err != nil {
+
+				break Loop
+			}
+			c.Response().Flush()
+
+		case <-c.Request().Context().Done():
+			break Loop
+		}
+	}
+	return nil
+
 }

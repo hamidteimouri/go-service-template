@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -37,5 +38,6 @@ func (u *User) GetFullName() string {
 	return u.Name + " " + u.Family
 }
 func (u *User) GetIdString() string {
+	return fmt.Sprint(u.Id)
 	return strconv.FormatUint(uint64(u.Id), 10)
 }

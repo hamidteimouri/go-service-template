@@ -21,11 +21,10 @@ func Translator() ut.Translator {
 }
 
 func Validate(translator ut.Translator) *validator.Validate {
-	/*
-		if validate != nil {
-			return validate
-		}
-	*/
+
+	if validate != nil {
+		return validate
+	}
 
 	validate = validator.New()
 	err := fa_translations.RegisterDefaultTranslations(validate, translator)

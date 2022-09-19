@@ -2,6 +2,7 @@ package data
 
 import (
 	"laramanpurego/internal/data/database"
+	"laramanpurego/internal/domain/dto"
 	"laramanpurego/internal/domain/entity"
 )
 
@@ -56,4 +57,8 @@ func (u *userRepository) Update(user *entity.User) (*entity.User, error) {
 		return nil, err
 	}
 	return insertUser, err
+}
+
+func (u *userRepository) GetAll(ch chan *dto.UsersStream) {
+	u.dbds.GetAllUser(ch)
 }

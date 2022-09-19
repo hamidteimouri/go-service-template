@@ -3,6 +3,7 @@ package controllers
 import (
 	"errors"
 	"github.com/hamidteimouri/htutils/htcolog"
+	"laramanpurego/internal/domain/dto"
 	"laramanpurego/internal/domain/entity"
 	"laramanpurego/internal/domain/repo"
 	"laramanpurego/pkg/helpers"
@@ -107,18 +108,17 @@ func (u *UserController) ChangePassword(user *entity.User, newPassword string) (
 }
 
 func (u *UserController) Update(user *entity.User) (result *entity.User, ok bool, err error) {
-	usr, err := u.repo.FindById(user.GetIdString())
-	if err != nil {
-		return nil, false, err
-	}
-	usr.Name = user.Name
-	usr.Family = user.Family
-	usr.Mobile = user.Mobile
 
-	result, err = u.repo.Update(usr)
+	result, err = u.repo.Update(user)
 	if err != nil {
 		return nil, false, err
 	}
 
 	return result, true, nil
+}
+
+func (u *UserController) GetAll() <-chan *dto.UsersStream {
+	ch := make(chan *dto.UsersStream)
+	go u.repo.GetAll(ch)
+	return ch
 }
