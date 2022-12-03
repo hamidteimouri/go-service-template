@@ -7,7 +7,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.0
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
-	github.com/hamidteimouri/htutils v0.0.3
+	github.com/hamidteimouri/htutils v0.0.4
 	github.com/jackc/pgx/v4 v4.17.0 // indirect
 	github.com/labstack/echo/v4 v4.7.2
 	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90
