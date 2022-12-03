@@ -1,9 +1,9 @@
 package data
 
 import (
-	"laramanpurego/internal/data/database"
-	"laramanpurego/internal/domain/dto"
-	"laramanpurego/internal/domain/entity"
+	"goservicetemplate/internal/data/database"
+	"goservicetemplate/internal/domain/dto"
+	"goservicetemplate/internal/domain/entity"
 )
 
 type userRepository struct {

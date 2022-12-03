@@ -3,10 +3,10 @@ package bootstrap
 import (
 	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/hamidteimouri/htutils/htenvier"
-	"laramanpurego/cmd/di"
-	model "laramanpurego/internal/data/database/mysql"
-	"laramanpurego/internal/presentation/grpc"
-	"laramanpurego/internal/presentation/http"
+	"goservicetemplate/cmd/di"
+	model "goservicetemplate/internal/data/database/mysql"
+	"goservicetemplate/internal/presentation/grpc"
+	"goservicetemplate/internal/presentation/http"
 )
 
 func Start() {

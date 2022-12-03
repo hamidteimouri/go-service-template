@@ -5,8 +5,8 @@ import (
 	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/hamidteimouri/htutils/htenvier"
 	"google.golang.org/grpc"
-	"laramanpurego/cmd/di"
-	"laramanpurego/internal/presentation/grpc/pbs"
+	"goservicetemplate/cmd/di"
+	"goservicetemplate/internal/presentation/grpc/pbs"
 	"net"
 )
 

@@ -1,7 +1,7 @@
 package mysql
 
 import (
-	"laramanpurego/internal/domain/entity"
+	"goservicetemplate/internal/domain/entity"
 	"time"
 )
 

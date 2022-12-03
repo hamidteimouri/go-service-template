@@ -1,6 +1,6 @@
 package dto
 
-import "laramanpurego/internal/domain/entity"
+import "goservicetemplate/internal/domain/entity"
 
 type UsersStream struct {
 	Error error

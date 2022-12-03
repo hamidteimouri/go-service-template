@@ -2,14 +2,14 @@ package di
 
 import (
 	"gorm.io/gorm"
-	"laramanpurego/cmd/initialize"
-	"laramanpurego/internal/data"
-	"laramanpurego/internal/data/database"
-	"laramanpurego/internal/data/database/mysql"
-	"laramanpurego/internal/domain/controllers"
-	"laramanpurego/internal/domain/repo"
-	"laramanpurego/internal/presentation/grpc/servers"
-	"laramanpurego/internal/presentation/http/handlers"
+	"goservicetemplate/cmd/initialize"
+	"goservicetemplate/internal/data"
+	"goservicetemplate/internal/data/database"
+	"goservicetemplate/internal/data/database/mysql"
+	"goservicetemplate/internal/domain/controllers"
+	"goservicetemplate/internal/domain/repo"
+	"goservicetemplate/internal/presentation/grpc/servers"
+	"goservicetemplate/internal/presentation/http/handlers"
 )
 
 var (

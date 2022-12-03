@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"github.com/hamidteimouri/htutils/htcolog"
 	"gorm.io/gorm"
-	"laramanpurego/internal/domain/dto"
-	"laramanpurego/internal/domain/entity"
-	"laramanpurego/pkg/hterror"
+	"goservicetemplate/internal/domain/dto"
+	"goservicetemplate/internal/domain/entity"
+	"goservicetemplate/pkg/hterror"
 	"time"
 )
 

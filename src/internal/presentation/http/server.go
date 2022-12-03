@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/hamidteimouri/htutils/htenvier"
-	"github.com/labstack/echo/v4"
-	"laramanpurego/internal/presentation/http/routes"
+	"goservicetemplate/internal/presentation/http/routes"
 )
 
 func StartHttp() {

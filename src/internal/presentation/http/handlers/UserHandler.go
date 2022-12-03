@@ -3,15 +3,13 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-playground/validator/v10"
 	"github.com/hamidteimouri/htutils/htcolog"
-	"github.com/labstack/echo/v4"
-	"laramanpurego/internal/domain/controllers"
-	"laramanpurego/internal/domain/entity"
-	"laramanpurego/internal/presentation/http/dto"
-	"laramanpurego/internal/presentation/http/request"
-	"laramanpurego/internal/presentation/http/response"
-	"laramanpurego/pkg/helpers"
+	"goservicetemplate/internal/domain/controllers"
+	"goservicetemplate/internal/domain/entity"
+	"goservicetemplate/internal/presentation/http/dto"
+	"goservicetemplate/internal/presentation/http/request"
+	"goservicetemplate/internal/presentation/http/response"
+	"goservicetemplate/pkg/helpers"
 	"strconv"
 )
 

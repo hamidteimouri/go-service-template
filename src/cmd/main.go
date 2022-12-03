@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/hamidteimouri/htutils/htapplife"
-	"laramanpurego/cmd/bootstrap"
+	"goservicetemplate/cmd/bootstrap"
 )
 
 func main() {

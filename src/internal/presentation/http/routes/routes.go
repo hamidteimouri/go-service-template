@@ -1,9 +1,8 @@
 package routes
 
 import (
-	"github.com/labstack/echo/v4"
-	"laramanpurego/cmd/di"
-	"laramanpurego/internal/presentation/http/middleware"
+	"goservicetemplate/cmd/di"
+	"goservicetemplate/internal/presentation/http/middleware"
 )
 
 func Routes(e *echo.Echo) {
@@ -27,6 +26,6 @@ func Routes(e *echo.Echo) {
 	g.PATCH("/update", middleware.ValidateJwt(di.UserHandler().Update))
 	g.PATCH("/password/update", middleware.ValidateJwt(di.UserHandler().UpdatePassword))
 
-	e.GET("all",di.UserHandler().GetAll)
+	e.GET("all", di.UserHandler().GetAll)
 
 }

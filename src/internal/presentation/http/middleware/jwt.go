@@ -2,10 +2,9 @@ package middleware
 
 import (
 	"github.com/hamidteimouri/htutils/htcolog"
-	"github.com/labstack/echo/v4"
-	"laramanpurego/internal/domain/entity"
-	"laramanpurego/internal/presentation/http/response"
-	"laramanpurego/pkg/helpers"
+	"goservicetemplate/internal/domain/entity"
+	"goservicetemplate/internal/presentation/http/response"
+	"goservicetemplate/pkg/helpers"
 	"strconv"
 )
 

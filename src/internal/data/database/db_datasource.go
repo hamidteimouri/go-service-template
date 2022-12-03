@@ -1,8 +1,8 @@
 package database
 
 import (
-	"laramanpurego/internal/domain/dto"
-	"laramanpurego/internal/domain/entity"
+	"goservicetemplate/internal/domain/dto"
+	"goservicetemplate/internal/domain/entity"
 )
 
 type DbDatasourceInterface interface {

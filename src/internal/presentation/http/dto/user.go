@@ -1,8 +1,8 @@
 package dto
 
 import (
-	"laramanpurego/internal/domain/entity"
-	"laramanpurego/pkg/helpers"
+	"goservicetemplate/internal/domain/entity"
+	"goservicetemplate/pkg/helpers"
 )
 
 type User struct {

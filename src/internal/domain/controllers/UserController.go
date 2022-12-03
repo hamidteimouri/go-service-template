@@ -3,10 +3,10 @@ package controllers
 import (
 	"errors"
 	"github.com/hamidteimouri/htutils/htcolog"
-	"laramanpurego/internal/domain/dto"
-	"laramanpurego/internal/domain/entity"
-	"laramanpurego/internal/domain/repo"
-	"laramanpurego/pkg/helpers"
+	"goservicetemplate/internal/domain/dto"
+	"goservicetemplate/internal/domain/entity"
+	"goservicetemplate/internal/domain/repo"
+	"goservicetemplate/pkg/helpers"
 	"strconv"
 )
 

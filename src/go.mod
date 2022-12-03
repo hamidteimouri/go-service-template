@@ -1,4 +1,4 @@
-module laramanpurego
+module goservicetemplate
 
 go 1.16
 
