@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/hamidteimouri/htutils/htenvier"
+	"github.com/labstack/echo/v4"
 	"goservicetemplate/internal/presentation/http/routes"
 )
 

@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"github.com/labstack/echo/v4"
 	"goservicetemplate/cmd/di"
 	"goservicetemplate/internal/presentation/http/middleware"
 )

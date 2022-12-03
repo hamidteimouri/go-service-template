@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"github.com/hamidteimouri/htutils/htcolog"
+	"github.com/labstack/echo/v4"
 	"goservicetemplate/internal/domain/entity"
 	"goservicetemplate/internal/presentation/http/response"
 	"goservicetemplate/pkg/helpers"

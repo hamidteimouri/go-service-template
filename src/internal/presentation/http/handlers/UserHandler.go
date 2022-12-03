@@ -3,7 +3,9 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"github.com/hamidteimouri/htutils/htcolog"
+	"github.com/labstack/echo/v4"
 	"goservicetemplate/internal/domain/controllers"
 	"goservicetemplate/internal/domain/entity"
 	"goservicetemplate/internal/presentation/http/dto"
