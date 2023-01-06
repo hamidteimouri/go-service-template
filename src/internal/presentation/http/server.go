@@ -1,10 +1,9 @@
 package http
 
 import (
-	"fmt"
-	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/hamidteimouri/htutils/htenvier"
 	"github.com/labstack/echo/v4"
+	"github.com/sirupsen/logrus"
 	"goservicetemplate/internal/presentation/http/routes"
 )
 
@@ -12,15 +11,18 @@ func StartHttp() {
 	e := echo.New()
 
 	routes.Routes(e)
-	addr := htenvier.Env("HTTP_SERVER_ADDRESS")
-	port := htenvier.Env("HTTP_SERVER_PORT")
-	address := fmt.Sprintf("%s:%s", addr, port)
+	address := htenvier.Env("HTTP_SERVER_ADDRESS")
+
+	logrus.WithFields(logrus.Fields{
+		"http_started_at": address,
+	}).Debug("http server started")
 
 	go func() {
 		err := e.Start(address)
 		if err != nil {
-			e := fmt.Sprintf("faild to start HTTP server : %s", htcolog.MakeRed(err.Error()))
-			panic(e)
+			logrus.WithFields(logrus.Fields{
+				"err": err,
+			}).Panic("failed to serve http server")
 		}
 	}()
 

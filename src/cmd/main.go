@@ -1,12 +1,18 @@
 package main
 
 import (
-	"github.com/hamidteimouri/htutils/htapplife"
 	"goservicetemplate/cmd/bootstrap"
+	_ "goservicetemplate/pkg/log"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
-	htapplife.Start()
 	bootstrap.Start()
-	htapplife.ClosingSignalListener()
+
+	// wait to ctrl + c
+	ch := make(chan os.Signal)
+	signal.Notify(ch, syscall.SIGHUP, syscall.SIGKILL, syscall.SIGTERM)
+	<-ch
 }

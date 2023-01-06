@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"github.com/labstack/echo/v4"
 	"goservicetemplate/internal/presentation/http/response"
 	"net/http"
 )
