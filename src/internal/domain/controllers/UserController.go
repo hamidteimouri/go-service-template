@@ -2,12 +2,11 @@ package controllers
 
 import (
 	"errors"
-	"github.com/hamidteimouri/htutils/htcolog"
+	"github.com/sirupsen/logrus"
 	"goservicetemplate/internal/domain/dto"
 	"goservicetemplate/internal/domain/entity"
 	"goservicetemplate/internal/domain/repo"
 	"goservicetemplate/pkg/helpers"
-	"strconv"
 )
 
 type UserController struct {
@@ -22,7 +21,9 @@ func (u *UserController) Login(username, password string) (token string, err err
 	user, err := u.repo.FindByEmail(username)
 	if err != nil {
 		/* there is an error while using database */
-		htcolog.DoRed(err.Error())
+		logrus.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("error while find user by email")
 		return "", errors.New("internal error")
 	}
 	if user == nil {
@@ -34,13 +35,13 @@ func (u *UserController) Login(username, password string) (token string, err err
 		/* password is wrong */
 		return "", errors.New("incorrect username or password")
 	}
-	var userId string = strconv.FormatUint(uint64(user.Id), 10)
-	token, err = helpers.JwtGeneration(userId)
+	token, err = helpers.JwtGeneration(user.Id)
 	if err != nil {
-		htcolog.DoRed(err.Error())
+		logrus.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("error while generate jwt token")
 		return "", err
 	}
-	htcolog.DoGreen(token)
 	return token, nil
 }
 
@@ -67,6 +68,9 @@ func (u *UserController) Register(name, family, username, password string) error
 	}
 	_, err = u.repo.Save(&usr)
 	if err != nil {
+		logrus.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("error while insert new user")
 		return err
 	}
 	return nil
@@ -89,19 +93,25 @@ func (u *UserController) GetUserByID(id string) (user *entity.User, err error) {
 }
 
 func (u *UserController) ChangePassword(user *entity.User, newPassword string) (ok bool, err error) {
-	usr, err := u.repo.FindById(user.GetIdString())
+	usr, err := u.repo.FindById(user.Id)
 	if err != nil {
 		return false, err
 	}
 
 	hashed, err := helpers.HashMake(newPassword)
 	if err != nil {
-		return false, err
+		logrus.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("error while make password hash")
+		return false, errors.New("something went wrong")
 	}
 	usr.Password = hashed
 	_, err = u.repo.Update(usr)
 	if err != nil {
-		return false, err
+		logrus.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("error while update user in database")
+		return false, errors.New("something went wrong")
 	}
 
 	return true, nil

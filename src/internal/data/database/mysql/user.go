@@ -6,7 +6,7 @@ import (
 )
 
 type UserModel struct {
-	ID        uint   `gorm:"primaryKey"`
+	Id        string `gorm:"primaryKey"`
 	Name      string `gorm:"size:256"`
 	Family    string `gorm:"size:256"`
 	Email     string `gorm:"size:256"`
@@ -22,7 +22,7 @@ func (u *UserModel) TableName() string {
 }
 
 func (u *UserModel) ConvertEntityToModel(user *entity.User) {
-	u.ID = user.Id
+	u.Id = user.Id
 	u.Name = user.Name
 	u.Family = user.Family
 	u.Email = user.Email
@@ -33,7 +33,7 @@ func (u *UserModel) ConvertEntityToModel(user *entity.User) {
 }
 
 func (u *UserModel) ConvertModelToEntity(user *entity.User) {
-	user.Id = u.ID
+	user.Id = u.Id
 	user.Name = u.Name
 	user.Family = u.Family
 	user.Email = u.Email

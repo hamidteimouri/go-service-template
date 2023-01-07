@@ -6,7 +6,7 @@ import (
 )
 
 type DbDatasourceInterface interface {
-	FindUserById(id string) (user *entity.User, err error)
+	FindUserById(id string) (*entity.User, error)
 	FindUserByEmail(email string) (*entity.User, error)
 	UpdateUser(user *entity.User) (*entity.User, error)
 	InsertUser(user *entity.User) (*entity.User, error)

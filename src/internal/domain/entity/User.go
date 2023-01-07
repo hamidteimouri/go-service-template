@@ -1,14 +1,12 @@
 package entity
 
 import (
-	"fmt"
-	"strconv"
 	"strings"
 	"time"
 )
 
 type User struct {
-	Id        uint      `json:"id"`
+	Id        string    `json:"id"`
 	Name      string    `json:"name"`
 	Family    string    `json:"family"`
 	Email     string    `json:"email"`
@@ -16,10 +14,6 @@ type User struct {
 	Password  string    `json:"-"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
-}
-
-func NewUser(id uint, name string, family string, email string, mobile string, password string, createdAt time.Time, updatedAt time.Time) *User {
-	return &User{Id: id, Name: name, Family: family, Email: email, Mobile: mobile, Password: password, CreatedAt: createdAt, UpdatedAt: updatedAt}
 }
 
 func (u *User) SetEmail(email string) {
@@ -36,8 +30,4 @@ func (u *User) SetFamily(family string) {
 
 func (u *User) GetFullName() string {
 	return u.Name + " " + u.Family
-}
-func (u *User) GetIdString() string {
-	return fmt.Sprint(u.Id)
-	return strconv.FormatUint(uint64(u.Id), 10)
 }

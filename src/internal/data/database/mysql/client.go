@@ -11,12 +11,12 @@ import (
 	"time"
 )
 
-type mysql struct {
+type Mysql struct {
 	db *gorm.DB
 }
 
-func NewMysql(db *gorm.DB) *mysql {
-	return &mysql{db: db}
+func NewMysql(db *gorm.DB) *Mysql {
+	return &Mysql{db: db}
 }
 
 func gormErrorToHtError(err error) error {
@@ -24,13 +24,13 @@ func gormErrorToHtError(err error) error {
 	case gorm.ErrRecordNotFound:
 		return hterror.ErrNotFound
 	case gorm.ErrInvalidDB:
-		return hterror.ErrorConnection
+		return hterror.ErrConnection
 	default:
-		return hterror.ErrorConnection
+		return hterror.ErrInternal
 	}
 }
 
-func (m *mysql) FindUserById(id string) (*entity.User, error) {
+func (m *Mysql) FindUserById(id string) (*entity.User, error) {
 
 	um := UserModel{}
 	user := &entity.User{}
@@ -38,7 +38,6 @@ func (m *mysql) FindUserById(id string) (*entity.User, error) {
 	result := m.db.Table("users").Where("id = ?", id).First(&um)
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-			htcolog.DoBgBrightRed(id + " Not found")
 			return nil, nil
 		}
 		return nil, result.Error
@@ -47,18 +46,18 @@ func (m *mysql) FindUserById(id string) (*entity.User, error) {
 	return user, nil
 }
 
-func (m *mysql) FindUserByEmail(email string) (*entity.User, error) {
+func (m *Mysql) FindUserByEmail(email string) (*entity.User, error) {
 	um := UserModel{}
 	user := &entity.User{}
 	result := m.db.Table("users").Where("email = ?", email).First(&um)
 	if result.Error != nil {
-		return nil, gormErrorToHtError(result.Error)
+		return nil, result.Error
 	}
 	um.ConvertModelToEntity(user)
 	return user, nil
 }
 
-func (m *mysql) FindUserByMobile(mobile string) (user *entity.User, err error) {
+func (m *Mysql) FindUserByMobile(mobile string) (user *entity.User, err error) {
 	um := UserModel{}
 	user = &entity.User{}
 
@@ -74,7 +73,7 @@ func (m *mysql) FindUserByMobile(mobile string) (user *entity.User, err error) {
 	return
 }
 
-func (m *mysql) UpdateUser(user *entity.User) (*entity.User, error) {
+func (m *Mysql) UpdateUser(user *entity.User) (*entity.User, error) {
 	userModel := UserModel{}
 	userModel.ConvertEntityToModel(user)
 	userModel.Password = user.Password
@@ -102,7 +101,7 @@ func (m *mysql) UpdateUser(user *entity.User) (*entity.User, error) {
 	return user, nil
 }
 
-func (m *mysql) InsertUser(user *entity.User) (*entity.User, error) {
+func (m *Mysql) InsertUser(user *entity.User) (*entity.User, error) {
 	userModel := UserModel{}
 	userModel.ConvertEntityToModel(user)
 
@@ -114,7 +113,7 @@ func (m *mysql) InsertUser(user *entity.User) (*entity.User, error) {
 	userModel.ConvertModelToEntity(user)
 	return user, nil
 }
-func (m *mysql) GetAllUser(ch chan *dto.UsersStream) {
+func (m *Mysql) GetAllUser(ch chan *dto.UsersStream) {
 
 	rows, err := m.db.Model(&UserModel{}).Rows()
 	defer rows.Close()

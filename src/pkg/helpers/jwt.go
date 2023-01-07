@@ -3,8 +3,8 @@ package helpers
 import (
 	"errors"
 	"github.com/golang-jwt/jwt"
-	"github.com/hamidteimouri/htutils/htcolog"
 	"github.com/hamidteimouri/htutils/htenvier"
+	"github.com/sirupsen/logrus"
 	"strconv"
 	"strings"
 	"time"
@@ -32,8 +32,9 @@ func JwtGeneration(id string) (jwtToken string, err error) {
 	/* string to int */
 	ex, err := strconv.ParseUint(exp, 10, 64)
 	if err != nil {
-		htcolog.DoRed("error while convert JWT_EXPIRE_MINUTES to int")
-		panic(htcolog.MakeRed(err.Error()))
+		logrus.WithFields(logrus.Fields{
+			"err": err,
+		}).Panic("error while convert JWT_EXPIRE_MINUTES to int")
 	}
 	expirationTime := time.Now().Add(time.Duration(ex) * time.Minute)
 
@@ -49,7 +50,6 @@ func JwtGeneration(id string) (jwtToken string, err error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString([]byte(signingKey))
 	if err != nil {
-		htcolog.DoRed("error while generating JWT token")
 		return "", err
 	}
 
@@ -71,17 +71,25 @@ func JwtTokenValidation(signedToken string) (*JwtClaim, error) {
 	claims, ok := token.Claims.(*JwtClaim)
 
 	if !ok {
-		err = errors.New("can not parse claims")
+		err = errors.New("can not parse jwt token")
 		return nil, err
 	}
 
 	if claims.ExpiresAt < time.Now().Local().Unix() {
 		err = errors.New("token expired")
-		return claims, err
+		return nil, err
 	}
+
+	if !token.Valid {
+		err = errors.New("token is invalid")
+		return nil, err
+	}
+
 	return claims, nil
 }
 
+// ExtractTokenFromAuthHeader this is a method to get jwt token from authorization header key.
+// Inspired from go-kit
 func ExtractTokenFromAuthHeader(val string) (token string, ok bool) {
 	authHeaderParts := strings.Split(val, " ")
 	if len(authHeaderParts) != 2 || !strings.EqualFold(authHeaderParts[0], bearer) {

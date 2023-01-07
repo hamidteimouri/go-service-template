@@ -6,17 +6,17 @@ import (
 	"goservicetemplate/internal/domain/entity"
 )
 
-type userRepository struct {
+type UserRepository struct {
 	dbds database.DbDatasourceInterface
 }
 
-func NewUserRepository(ds database.DbDatasourceInterface) *userRepository {
-	return &userRepository{
+func NewUserRepository(ds database.DbDatasourceInterface) *UserRepository {
+	return &UserRepository{
 		dbds: ds,
 	}
 }
 
-func (u *userRepository) FindById(id string) (*entity.User, error) {
+func (u *UserRepository) FindById(id string) (*entity.User, error) {
 	user, err := u.dbds.FindUserById(id)
 	if err != nil {
 		return nil, err
@@ -24,11 +24,11 @@ func (u *userRepository) FindById(id string) (*entity.User, error) {
 	return user, nil
 }
 
-func (u *userRepository) FindByUsername(username string) (*entity.User, error) {
+func (u *UserRepository) FindByUsername(username string) (*entity.User, error) {
 	return nil, nil
 }
 
-func (u *userRepository) FindByEmail(email string) (*entity.User, error) {
+func (u *UserRepository) FindByEmail(email string) (*entity.User, error) {
 
 	user, err := u.dbds.FindUserByEmail(email)
 
@@ -43,7 +43,7 @@ func (u *userRepository) FindByEmail(email string) (*entity.User, error) {
 	return user, nil
 }
 
-func (u *userRepository) Save(user *entity.User) (*entity.User, error) {
+func (u *UserRepository) Save(user *entity.User) (*entity.User, error) {
 	insertUser, err := u.dbds.InsertUser(user)
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func (u *userRepository) Save(user *entity.User) (*entity.User, error) {
 	return insertUser, err
 }
 
-func (u *userRepository) Update(user *entity.User) (*entity.User, error) {
+func (u *UserRepository) Update(user *entity.User) (*entity.User, error) {
 	insertUser, err := u.dbds.UpdateUser(user)
 	if err != nil {
 		return nil, err
@@ -59,6 +59,6 @@ func (u *userRepository) Update(user *entity.User) (*entity.User, error) {
 	return insertUser, err
 }
 
-func (u *userRepository) GetAll(ch chan *dto.UsersStream) {
+func (u *UserRepository) GetAll(ch chan *dto.UsersStream) {
 	u.dbds.GetAllUser(ch)
 }
