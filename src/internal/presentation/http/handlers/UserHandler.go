@@ -12,7 +12,6 @@ import (
 	"goservicetemplate/internal/presentation/http/request"
 	"goservicetemplate/internal/presentation/http/response"
 	"goservicetemplate/pkg/helpers"
-	"strconv"
 )
 
 type UserHandler struct {
@@ -149,8 +148,7 @@ func (u *UserHandler) GetUserByID(c echo.Context) error {
 }
 
 func (u *UserHandler) Me(user *entity.User, c echo.Context) error {
-	var userId string = strconv.FormatUint(uint64(user.Id), 10)
-	user, err := u.ctrl.GetUserByID(userId)
+	user, err := u.ctrl.GetUserByID(user.Id)
 	if err != nil {
 		resp := response.Response{
 			Msg: "user not found",
@@ -166,8 +164,7 @@ func (u *UserHandler) Me(user *entity.User, c echo.Context) error {
 }
 
 func (u *UserHandler) UpdatePassword(user *entity.User, c echo.Context) error {
-	var userId string = strconv.FormatUint(uint64(user.Id), 10)
-	user, err := u.ctrl.GetUserByID(userId)
+	user, err := u.ctrl.GetUserByID(user.Id)
 	if err != nil {
 		resp := response.Response{
 			Msg: "user not found",
@@ -218,8 +215,7 @@ func (u *UserHandler) UpdatePassword(user *entity.User, c echo.Context) error {
 }
 
 func (u *UserHandler) Update(user *entity.User, c echo.Context) error {
-	var userId string = strconv.FormatUint(uint64(user.Id), 10)
-	user, err := u.ctrl.GetUserByID(userId)
+	user, err := u.ctrl.GetUserByID(user.Id)
 	if err != nil {
 		resp := response.Response{
 			Msg: "user not found",
