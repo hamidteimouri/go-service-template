@@ -9,7 +9,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/hamidteimouri/gommon v0.0.5
 	github.com/jackc/pgx/v4 v4.17.0 // indirect
-	github.com/labstack/echo/v4 v4.7.2
+	github.com/labstack/echo/v4 v4.9.0
 	github.com/sirupsen/logrus v1.4.2
 	golang.org/x/crypto v0.0.0-20220829220503-c86fa9a7ed90
 	google.golang.org/grpc v1.49.0
