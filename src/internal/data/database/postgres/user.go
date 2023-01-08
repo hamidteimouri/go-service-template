@@ -1,18 +1,19 @@
-package mysql
+package postgres
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	"goservicetemplate/internal/domain/entity"
 	"time"
 )
 
 type UserModel struct {
-	Id        int    `gorm:"primaryKey"`
-	Name      string `gorm:"size:256"`
-	Family    string `gorm:"size:256"`
-	Email     string `gorm:"size:256"`
-	Mobile    string `gorm:"size:128"`
-	Password  string `gorm:"size:256"`
+	Id        uuid.UUID `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()"`
+	Name      string    `gorm:"size:256"`
+	Family    string    `gorm:"size:256"`
+	Email     string    `gorm:"size:256"`
+	Mobile    string    `gorm:"size:128"`
+	Password  string    `gorm:"size:256"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt time.Time `gorm:"index;default:null"`

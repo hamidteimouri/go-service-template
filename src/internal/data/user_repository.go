@@ -1,6 +1,8 @@
 package data
 
 import (
+	"errors"
+	"gorm.io/gorm"
 	"goservicetemplate/internal/data/database"
 	"goservicetemplate/internal/domain/dto"
 	"goservicetemplate/internal/domain/entity"
@@ -33,6 +35,9 @@ func (u *UserRepository) FindByEmail(email string) (*entity.User, error) {
 	user, err := u.dbds.FindUserByEmail(email)
 
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
 		return nil, err
 	}
 

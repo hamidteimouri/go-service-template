@@ -7,6 +7,7 @@ require (
 	github.com/go-playground/universal-translator v0.18.0
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/google/uuid v1.1.2
 	github.com/hamidteimouri/gommon v0.0.5
 	github.com/jackc/pgx/v4 v4.17.0 // indirect
 	github.com/labstack/echo/v4 v4.9.0

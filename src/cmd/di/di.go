@@ -5,7 +5,7 @@ import (
 	"goservicetemplate/cmd/initialize"
 	"goservicetemplate/internal/data"
 	"goservicetemplate/internal/data/database"
-	"goservicetemplate/internal/data/database/mysql"
+	"goservicetemplate/internal/data/database/postgres"
 	"goservicetemplate/internal/domain/controllers"
 	"goservicetemplate/internal/domain/repo"
 	"goservicetemplate/internal/presentation/grpc/servers"
@@ -42,7 +42,7 @@ func DbDatasource() database.DbDatasourceInterface {
 	if dbDatasource != nil {
 		return dbDatasource
 	}
-	dbDatasource = mysql.NewMysql(db)
+	dbDatasource = postgres.NewPostgres(db)
 	return dbDatasource
 }
 

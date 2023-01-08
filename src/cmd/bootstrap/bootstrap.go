@@ -5,7 +5,7 @@ import (
 	"github.com/hamidteimouri/gommon/htenvier"
 	"github.com/sirupsen/logrus"
 	"goservicetemplate/cmd/di"
-	model "goservicetemplate/internal/data/database/mysql"
+	model "goservicetemplate/internal/data/database/postgres"
 	"goservicetemplate/internal/presentation/grpc"
 	"goservicetemplate/internal/presentation/http"
 )
@@ -23,7 +23,9 @@ func databaseMigration() {
 	}
 	err := di.DB().AutoMigrate(model.UserModel{})
 	if err != nil {
-		return
+		logrus.WithFields(logrus.Fields{
+			"err": err,
+		}).Panic("failed to run migrations")
 	}
 
 }

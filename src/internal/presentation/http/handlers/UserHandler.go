@@ -88,7 +88,6 @@ func (u *UserHandler) Register(c echo.Context) error {
 	req := request.UserRegisterRequest{}
 	err := c.Bind(&req)
 	if err != nil {
-		htcolog.DoRed(err.Error())
 		return err
 	}
 	translator := helpers.Translator()
