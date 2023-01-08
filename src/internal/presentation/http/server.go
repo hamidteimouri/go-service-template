@@ -1,16 +1,14 @@
 package http
 
 import (
-	"github.com/hamidteimouri/htutils/htenvier"
+	"github.com/hamidteimouri/gommon/htenvier"
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/gommon/log"
 	"github.com/sirupsen/logrus"
 	"goservicetemplate/internal/presentation/http/routes"
 )
 
 func StartHttp() {
 	e := echo.New()
-	e.Logger.SetLevel(log.Level())
 
 	routes.Routes(e)
 	address := htenvier.Env("HTTP_SERVER_ADDRESS")

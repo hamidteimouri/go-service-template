@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	"github.com/hamidteimouri/htutils/htenvier"
+	"github.com/hamidteimouri/gommon/htenvier"
 	"time"
 )
 

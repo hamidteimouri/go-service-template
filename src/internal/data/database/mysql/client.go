@@ -3,7 +3,7 @@ package mysql
 import (
 	"errors"
 	"fmt"
-	"github.com/hamidteimouri/htutils/htcolog"
+	"github.com/hamidteimouri/gommon/htcolog"
 	"gorm.io/gorm"
 	"goservicetemplate/internal/domain/dto"
 	"goservicetemplate/internal/domain/entity"

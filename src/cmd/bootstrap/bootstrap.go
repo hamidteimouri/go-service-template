@@ -1,8 +1,8 @@
 package bootstrap
 
 import (
-	"github.com/hamidteimouri/htutils/htcolog"
-	"github.com/hamidteimouri/htutils/htenvier"
+	"github.com/hamidteimouri/gommon/htcolog"
+	"github.com/hamidteimouri/gommon/htenvier"
 	"github.com/sirupsen/logrus"
 	"goservicetemplate/cmd/di"
 	model "goservicetemplate/internal/data/database/mysql"

@@ -2,7 +2,7 @@ package servers
 
 import (
 	"context"
-	"github.com/hamidteimouri/htutils/htcolog"
+	"github.com/hamidteimouri/gommon/htcolog"
 	"goservicetemplate/internal/domain/controllers"
 	"goservicetemplate/internal/presentation/grpc/pbs"
 )

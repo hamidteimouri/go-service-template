@@ -75,8 +75,6 @@ github.com/google/uuid v1.1.2/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
 github.com/hamidteimouri/gommon v0.0.5 h1:YnTqrE0VY44NRjMy0moMbQ5CAzSkYHTLMIOPd5dg+os=
 github.com/hamidteimouri/gommon v0.0.5/go.mod h1:Yvuvog88QL0loSphV23kBp/BAIU1961+lYsP7ByhvEM=
-github.com/hamidteimouri/htutils v0.0.4 h1:RppVvnrDx21hy5mgduulpu1PVFryuRuybnm6/EgRT3s=
-github.com/hamidteimouri/htutils v0.0.4/go.mod h1:8Nznxk+CRXHkwsG4fzt93JR0IxgoVaxQ2BZX20jV528=
 github.com/jackc/chunkreader v1.0.0 h1:4s39bBR8ByfqH+DKm8rQA3E1LHZWB9XWcrz8fqaZbe0=
 github.com/jackc/chunkreader v1.0.0/go.mod h1:RT6O25fNZIuasFJRyZ4R/Y2BbhasbmZXF9QQ7T3kePo=
 github.com/jackc/chunkreader/v2 v2.0.0/go.mod h1:odVSm741yZoC3dpHEUXIqA9tQRhFrgOHwnPIn9lDKlk=

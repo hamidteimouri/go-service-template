@@ -1,7 +1,7 @@
 package grpc
 
 import (
-	"github.com/hamidteimouri/htutils/htenvier"
+	"github.com/hamidteimouri/gommon/htenvier"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"goservicetemplate/cmd/di"

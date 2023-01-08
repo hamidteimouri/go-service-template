@@ -2,8 +2,8 @@ package initialize
 
 import (
 	"fmt"
-	"github.com/hamidteimouri/htutils/htcolog"
-	"github.com/hamidteimouri/htutils/htenvier"
+	"github.com/hamidteimouri/gommon/htcolog"
+	"github.com/hamidteimouri/gommon/htenvier"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
