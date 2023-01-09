@@ -20,10 +20,10 @@ var (
 	userRepository repo.UserRepository
 	dbDatasource   database.DbDatasourceInterface
 
-	/* Handlers variable */
+	/* Handlers variables */
 	userHandler *handlers.UserHandler
 
-	/* GRPC variable */
+	/* GRPC variables */
 	userServer *servers.UserServer
 )
 
@@ -82,6 +82,6 @@ func GrpcUserServer() *servers.UserServer {
 	if userServer != nil {
 		return userServer
 	}
-	userServer = servers.NewUserServer(userController)
+	userServer = servers.NewUserServer(UserDomain())
 	return userServer
 }

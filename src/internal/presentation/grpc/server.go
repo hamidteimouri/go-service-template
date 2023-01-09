@@ -9,7 +9,9 @@ import (
 	"net"
 )
 
-func StartGRPC() {
+var grpcServer *grpc.Server
+
+func Start() {
 	address := htenvier.Env("GRPC_SERVER_ADDRESS")
 	listener, err := net.Listen("tcp", address)
 	if err != nil {
@@ -18,7 +20,7 @@ func StartGRPC() {
 		}).Panic("failed to make listener for gRPC server")
 	}
 
-	grpcServer := grpc.NewServer()
+	grpcServer = grpc.NewServer()
 
 	/* register GRPC servers */
 	pbs.RegisterUserServiceServer(grpcServer, di.GrpcUserServer())
@@ -36,4 +38,11 @@ func StartGRPC() {
 		}
 	}()
 
+}
+
+func Stop() {
+	// stopping gracefully
+	if grpcServer != nil {
+		grpcServer.Stop()
+	}
 }

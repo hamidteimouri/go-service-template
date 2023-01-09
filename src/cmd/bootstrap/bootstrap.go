@@ -1,7 +1,6 @@
 package bootstrap
 
 import (
-	"github.com/hamidteimouri/gommon/htcolog"
 	"github.com/hamidteimouri/gommon/htenvier"
 	"github.com/sirupsen/logrus"
 	"goservicetemplate/cmd/di"
@@ -13,8 +12,13 @@ import (
 func Start() {
 	checkImportantEnv()
 	databaseMigration()
+
 	http.StartHttp()
-	grpc.StartGRPC()
+	grpc.Start()
+}
+
+func Stop() {
+	grpc.Stop()
 }
 
 func databaseMigration() {
@@ -84,7 +88,7 @@ func checkImportantEnv() {
 	}
 
 	if needToPanic {
-		panic(htcolog.MakeRed("complete the ENV file"))
+		logrus.Panic("complete the ENV file")
 	}
 
 }
